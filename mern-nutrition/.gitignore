@@ -1,0 +1,61 @@
+# Environment files (important to exclude)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs (if applicable)
+logs/
+*.log
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Production
+/build
+
+# IDE and editor files (optional)
+.vscode/
+.idea/
+
+# Package manager artifacts
+npm-debug.log*
+yarn.lock
+.yarn/*
+package-lock.json
+
+# Runtime directories (adjust as per your project)
+/dist
+/out
+/lib
+
+# Generated files
+*.min.js
+*.min.css
+*.bundle.js
+/public
+
+# Temporary files
+/tmp
+
+# Configuration files
+.babelrc
+.eslintrc
+.prettierrc
+.editorconfig
+
+# Backup files
+*.bak
+
+# Local development files
+.env.local
+.env.development.local
+
+# Documentation and generated documentation
+/docs
