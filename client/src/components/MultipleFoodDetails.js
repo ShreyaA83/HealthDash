@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-  import { Link } from 'react-router-dom';
-// import CustomCursor from './CustomCursor';
+import { Link } from 'react-router-dom';
+import CustomCursor from './CustomCursor';
 import { Pie } from 'react-chartjs-2';
 import Spinner from './Spinner';
 import Layout from './Layout';
@@ -204,6 +204,10 @@ const MultipleFoodDetails = () => {
             return label;
           },
         },
+      }, legend: {
+        labels: {
+          color: 'white', // Change the color of legend labels
+        },
       },
     },
   };
@@ -244,6 +248,7 @@ const MultipleFoodDetails = () => {
         <Spinner />
       ) : (
         <>
+        <CustomCursor />
         <div className={`mb-4`}>
             <h2 className="text-2xl font-bold mb-4 text-white flex flex-cols items-center">Food Descriptions</h2>
             <ul className="list-disc ml-6">
@@ -314,7 +319,7 @@ const MultipleFoodDetails = () => {
             <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient">
               <h2 className="text-2xl font-bold mb-4 text-gray-100">Nutritional Information Pie Chart</h2>
               <div className="flex justify-center items-center bg-custom-gradient">
-                <Pie data={nutritionalData} options={pieOptions} width={370} height={500}/>
+                <Pie data={nutritionalData} options={pieOptions} width={350} height={500}/>
               </div>
             </div>
           </div>

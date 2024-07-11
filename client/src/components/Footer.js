@@ -1,29 +1,40 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Footer.css';
 import ScrollUpIcon from '../assets/arrow.png';
-import {
-  makeStyles,
-  Button,
-  Popover,
-  PopoverSurface,
-  PopoverTrigger,
-} from "@fluentui/react-components";
+import Popup from 'reactjs-popup';
 
-const useStyles = makeStyles({
-  contentHeader: {
-    marginTop: "0",
-  },
-});
+const PopupExample = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-const ExampleContent = () => {
-  const styles = useStyles();
-  return (
-    <div className='backdrop-blur-xl'>
-      <h3 className={styles.contentHeader}>About</h3>
-      <div>This is some popover content</div>
-    </div>
+  // const openPopup = () => setIsOpen(true);
+  const closePopup = () => setIsOpen(false);
+  
+  return( 
+    <Popup
+      trigger={<button className="popup-button backdrop-blur-sm rounded-full hover:bg-blue-600 text-white font-bold px-2 py-2"> i</button>}
+      position="top center"
+      open={isOpen}
+      onClose={closePopup}
+      closeOnDocumentClick
+      closeOnEscape
+    >
+      <div className='backdrop-blur-xl p-4 rounded-lg bg-white text-black'>
+        The Nutritional Values are on the basis of per 100 grams or per serving.
+      </div>
+    </Popup>
   );
 };
+
+// const PopupExample = () => (
+//   <Popup 
+//     trigger={<button className="popup-button backdrop-blur-sm rounded-full hover:bg-blue-600 text-white font-bold px-2 py-2"> Info</button>} 
+//     position="center center"
+//   >
+//     <div className='backdrop-blur-xl bg-black text-white p-5'>
+//       The Nutritional Values are on the basis of per 100 grams or per serving.
+//     </div>
+//   </Popup>
+// );
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -34,25 +45,14 @@ const Footer = () => {
   };
 
   return (
-    <footer className="footer pt-10">
-      <div className="container mx-auto px-1 py-1 items-center justify-right space-x-4">
-        <button
-          className="backdrop-blur-sm rounded-full hover:bg-blue-600 text-white font-bold px-1 py-1"
-          onClick={scrollToTop}
-        >
-          <img src={ScrollUpIcon} alt="Scroll Up" className="w-4 h-4" />
-        </button>
-        <Popover>
-          <PopoverTrigger disableButtonEnhancement>
-            <Button className="backdrop-blur-sm rounded-full hover:bg-blue-600 text-white font-bold px-1 py-1">
-              <text className='text-black'>i</text>
-            </Button>
-          </PopoverTrigger>
-          <PopoverSurface tabIndex={-1}>
-            <ExampleContent />
-          </PopoverSurface>
-        </Popover>
-      </div>
+    <footer className="footer fixed bottom-4 left-1/2 transform -translate-x-1/2 flex justify-center items-center space-x-4 backdrop-blur-xl bg-gray/80 shadow-lg rounded-full px-6 py-3">
+      <button
+        className="backdrop-blur-sm rounded-full hover:bg-blue-600 text-white font-bold px-2 py-2"
+        onClick={scrollToTop}
+      >
+        <img src={ScrollUpIcon} alt="Scroll Up" className="w-6 h-6" />
+      </button>
+      <PopupExample />
     </footer>
   );
 };

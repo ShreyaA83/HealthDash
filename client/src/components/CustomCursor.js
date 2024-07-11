@@ -65,7 +65,7 @@ const CustomCursor = () => {
       document.body.addEventListener('mouseenter', handleMouseEnter);
       document.body.addEventListener('mouseleave', handleMouseLeave);
 
-      document.querySelectorAll('a, link').forEach(link => {
+      document.querySelectorAll('a, link, button').forEach(link => {
         link.addEventListener('click', handleLinkClick);
         link.addEventListener('mouseenter', handleLinkHover);
         link.addEventListener('mouseleave', handleLinkLeave);
@@ -84,7 +84,7 @@ const CustomCursor = () => {
       document.body.removeEventListener('mouseenter', handleMouseEnter);
       document.body.removeEventListener('mouseleave', handleMouseLeave);
 
-      document.querySelectorAll('a, link').forEach(link => {
+      document.querySelectorAll('a, link, button').forEach(link => {
         link.removeEventListener('click', handleLinkClick);
         link.removeEventListener('mouseenter', handleLinkHover);
         link.removeEventListener('mouseleave', handleLinkLeave);

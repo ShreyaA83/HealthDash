@@ -127,6 +127,10 @@ const Detail = () => {
             return label;
           },
         },
+      }, legend: {
+        labels: {
+          color: 'white', // Change the color of legend labels
+        },
       },
     },
   };
@@ -145,8 +149,8 @@ const Detail = () => {
       </div>
       <h1 className="text-2xl font-bold mb-4 text-gray-100">{detailData['Main food description']}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <div
+      <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient">
+      <div
             className={`rounded-lg shadow-md p-6 ${backgroundColor}`}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
@@ -206,13 +210,13 @@ const Detail = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-lg font-semibold mb-4">Nutrient Distribution</h2>
-            <Pie data={nutritionalData} options={pieOptions} width={470} height={600} />
+        <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient">
+          {/* <div className="bg-white rounded-lg shadow-md p-6"> */}
+            <h2 className="text-2xl font-bold mb-4 text-gray-100">Nutrient Distribution</h2>
+            <Pie data={nutritionalData} options={pieOptions} width={350} height={500} />
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </Layout>
   );
 };
