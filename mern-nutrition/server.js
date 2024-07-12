@@ -3,15 +3,13 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config()
 
-
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 // MongoDB Atlas URI
 const uri = process.env.MONGODB_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true },);
 
 const connection = mongoose.connection;
 connection.once('open', () => {

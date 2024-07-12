@@ -4,7 +4,7 @@ const Spinner = () => {
   return (
     <div className="backdrop-blur-xl bg-custom-gradient flex justify-center items-center w-screen h-screen p-5">
       <div className="border border-gray-200 p-2 rounded-xl shadow-xl shadow-emerald-900">
-        <div className="flex items-end gap-1">
+        <div className="flex items-end gap-1 animate-pulse">
           <span className="text-6xl font-bold dark:text-emerald-900">F</span>
           <svg
             className="animate-spin"
@@ -48,11 +48,11 @@ const Spinner = () => {
           </svg>
 
           <span className="text-6xl font-bold dark:text-emerald-900">D</span>
-          <span className="text-6xl font-semibold dark:text-purple-900">S</span>
-          <span className="text-6xl font-semibold dark:text-purple-900">T</span>
-          <span className="text-6xl font-semibold dark:text-purple-900">A</span>
-          <span className="text-6xl font-semibold dark:text-purple-900">L</span>
-          <span className="text-6xl font-semibold dark:text-purple-900">L</span>
+          <span className="text-6xl font-bold dark:text-purple-900">S</span>
+          <span className="text-6xl font-bold dark:text-purple-900">T</span>
+          <span className="text-6xl font-bold dark:text-purple-900">A</span>
+          <span className="text-6xl font-bold dark:text-purple-900">L</span>
+          <span className="text-6xl font-bold dark:text-purple-900">L</span>
         </div>
       </div>
     </div>
