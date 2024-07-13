@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Spinner from './Spinner';
 import CustomCursor from './CustomCursor'; // Update the path based on your project structure
 import Layout from './Layout';
+import debounce from 'lodash.debounce';
+
 
 const Data = () => {
   const [filteredData, setFilteredData] = useState([]);
@@ -29,6 +31,7 @@ const Data = () => {
     }
   };
 
+
   const handleSearch = async (query) => {
     setSearchQuery(query);
     try {
@@ -41,25 +44,31 @@ const Data = () => {
       console.error('Error searching:', err);
     }
   };
+  const debouncedSearch = debounce(handleSearch, 5); // Adjust debounce delay as needed (e.g., 300ms)
+
+
+  const handleSearchInputChange = (event) => {
+    debouncedSearch(event.target.value); // Call debounced function on input change
+  };
 
   const handleSort = async (columnName) => {
     if (sortBy === columnName) {
-      const newOrder = order === 'asc' ? 'desc' : 'asc';
+      const newOrder = order === 'desc' ? 'asc' : 'desc';
       setOrder(newOrder);
       setClickCount({ ...clickCount, [columnName]: clickCount[columnName] + 1 || 1 });
       if (clickCount[columnName] === 2) {
         setSortBy('');
-        setOrder('asc');
+        setOrder('desc');
         setClickCount({});
       }
     } else {
       setSortBy(columnName);
-      setOrder('asc');
+      setOrder('desc');
       setClickCount({ ...clickCount, [columnName]: 1 });
     }
     try {
       const response = await axios.get('http://localhost:5000/api/data', {
-        params: { query: searchQuery, sortBy: columnName, order: order === 'asc' ? 'desc' : 'asc' }
+        params: { query: searchQuery, sortBy: columnName, order: order === 'desc' ? 'asc' : 'desc' }
       });
       setFilteredData(response.data);
     } catch (err) {
@@ -67,55 +76,61 @@ const Data = () => {
     }
   };
 
-  const sortIcon = (columnName) => {
-    if (sortBy === columnName) {
-      return order === 'asc' ? ' ↑' : ' ↓';
-    }
-    return null;
-  };
-
-  const sortedData = [...filteredData].sort((a, b) => {
-    if (sortBy === 'Health Score Male' || sortBy === 'Health Score Female') {
-      return order === 'asc' ? a[sortBy] - b[sortBy] : b[sortBy] - a[sortBy];
-    } else if (sortBy === 'Protein Classification' || sortBy === 'Energy Classification' ||
-               sortBy === 'Carbohydrate Classification' || sortBy === 'Total Fat Classification' ||
-               sortBy === 'Sugars total Classification' || sortBy === 'Fiber total dietary Classification' ||
-               sortBy === 'Cholesterol Classification') {
-      const orderValues = { 'high': 3, 'medium': 2, 'low': 1 };
-      const defaultOrderValue = 0;
-
-      const getOrderValue = (value) => orderValues[value] || defaultOrderValue;
-
-      const aValue = getOrderValue(a[sortBy]);
-      const bValue = getOrderValue(b[sortBy]);
-
-      if (aValue !== bValue) {
-        return order === 'asc' ? aValue - bValue : bValue - aValue;
-      } else {
-        return a[sortBy].localeCompare(b[sortBy]) * (order === 'asc' ? 1 : -1);
+  const sortIcon = useMemo(() => {
+    return (columnName) => {
+      if (sortBy === columnName) {
+        return order === 'desc' ? '↓' : '↑';
       }
-    } else {
-      const orderValue = order === 'asc' ? 1 : -1;
-      const aValue = a[sortBy] || '';
-      const bValue = b[sortBy] || '';
-      return aValue.localeCompare(bValue) * orderValue;
-    }
-  });
+      return null;
+    };
+  }, [sortBy, order]);
+
+  const sortedData = useMemo(() => {
+    return [...filteredData].sort((a, b) => {
+      if (sortBy === 'Health Score Male' || sortBy === 'Health Score Female') {
+        return order === 'asc' ? a[sortBy] - b[sortBy] : b[sortBy] - a[sortBy];
+      } else if (sortBy === 'Protein Classification' || sortBy === 'Energy Classification' ||
+                 sortBy === 'Carbohydrate Classification' || sortBy === 'Total Fat Classification' ||
+                 sortBy === 'Sugars total Classification' || sortBy === 'Fiber total dietary Classification' ||
+                 sortBy === 'Cholesterol Classification') {
+        const orderValues = { 'high': 3, 'medium': 2, 'low': 1 };
+        const defaultOrderValue = 0;
+  
+        const getOrderValue = (value) => orderValues[value] || defaultOrderValue;
+  
+        const aValue = getOrderValue(a[sortBy]);
+        const bValue = getOrderValue(b[sortBy]);
+  
+        if (aValue !== bValue) {
+          return order === 'asc' ? aValue - bValue : bValue - aValue;
+        } else {
+          return a[sortBy].localeCompare(b[sortBy]) * (order === 'desc' ? 1 : -1);
+        }
+      } else {
+        const orderValue = order === 'asc' ? 1 : -1;
+        const aValue = a[sortBy] || '';
+        const bValue = b[sortBy] || '';
+        return aValue.localeCompare(bValue) * orderValue;
+      }
+    });
+  }, [filteredData, sortBy, order]);
 
   return (
     <Layout>
-        <Link to="/multiplefooddetails" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+    <div className='pb-5'><Link to="/" className="text-blue-400 hover:text-blue-200 ">&larr; Back to Home</Link>
+</div>
+        <Link to="/multiplefooddetails" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ">
         Multiple Food Details
       </Link>
       <div className="mb-3 md:w-96 mx-auto">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <input
-            type="text"
-            placeholder="Search by description"
-            value={searchQuery}
-            onChange={(e) => handleSearch(e.target.value)}
-            className="relative m-0 block flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
-          />
+        type="text"
+        placeholder="Search by description"
+        value={searchQuery}
+        onChange={handleSearchInputChange} 
+        className="relative m-0 block flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+      />
           <span className="text-gray-100 input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal text-neutral-700 ">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
               <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clipRule="evenodd" />
@@ -129,38 +144,41 @@ const Data = () => {
           <Spinner />
         </div>
       ) : (
-        <table className="min-w-full bg-gray-300 table-wrp">
+        <table className="min-w-full bg-gray-500 table-wrp border-collapse">
+        <caption class="caption-top text-zinc-500 pb-4 hover:text-zinc-100">
+    These Values are per 100 grams of food or per serving. 
+  </caption>
         <CustomCursor/>
-          <thead className="sticky bg-gray-200 border-b sticky top-0">
+          <thead className="sticky bg-violet-200 border-b sticky top-0">
             <tr>
-              <th>Food Code</th>
-              <th>Description</th>
-              <th>WWEIA Category Description</th>
-              <th className="py-2" onClick={() => handleSort('Protein Classification')}>
+              <th className='border border-slate-200'>Food Code</th>
+              <th className='border border-slate-200'>Description</th>
+              <th className='border border-slate-200'>WWEIA Category Description</th>
+              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Protein Classification')}>
                 Protein Classification {sortIcon('Protein Classification')}
               </th>
-              <th className="py-2" onClick={() => handleSort('Energy Classification')}>
+              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Energy Classification')}>
                 Energy Classification {sortIcon('Energy Classification')}
               </th>
-              <th className="py-2" onClick={() => handleSort('Carbohydrate Classification')}>
+              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Carbohydrate Classification')}>
                 Carbohydrate Classification {sortIcon('Carbohydrate Classification')}
               </th>
-              <th className="py-2" onClick={() => handleSort('Total Fat Classification')}>
+              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Total Fat Classification')}>
                 Total Fat Classification {sortIcon('Total Fat Classification')}
               </th>
-              <th className="py-2" onClick={() => handleSort('Sugars total Classification')}>
+              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Sugars total Classification')}>
                 Sugars Total Classification {sortIcon('Sugars total Classification')}
               </th>
-              <th className="py-2" onClick={() => handleSort('Fiber total dietary Classification')}>
+              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Fiber total dietary Classification')}>
                 Fiber Total Dietary Classification {sortIcon('Fiber total dietary Classification')}
-              </th>
-              <th className="py-2" onClick={() => handleSort('Cholesterol Classification')}>
+              </th> 
+              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Cholesterol Classification')}>
                 Cholesterol Classification {sortIcon('Cholesterol Classification')}
               </th>
-              <th className="py-2" onClick={() => handleSort('Health Score Male')}>
+              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Health Score Male')}>
                 Health Score Male {sortIcon('Health Score Male')}
               </th>
-              <th className="py-2" onClick={() => handleSort('Health Score Female')}>
+              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Health Score Female')}>
                 Health Score Female {sortIcon('Health Score Female')}
               </th>
             </tr>
@@ -169,22 +187,22 @@ const Data = () => {
           <CustomCursor/>
             {sortedData.map((item) => (
               <tr key={item._id} className="text-center hover:bg-teal-100 odd:bg-white even:bg-slate-50">
-                <td className="py-2">{item['Food code']}</td>
-                <td className="py-2">
+                <td className="py-2 border border-slate-200">{item['Food code']}</td>
+                <td className="py-2 border border-slate-200">
                   <Link to={`/details/${item._id}`} className="text-blue-500">
                     {item['Main food description']}
                   </Link>
                 </td>
-                <td className="py-2">{item['WWEIA Category description']}</td>
-                <td className="py-2">{item['Protein Classification']}</td>
-                <td className="py-2">{item['Energy Classification']}</td>
-                <td className="py-2">{item['Carbohydrate Classification']}</td>
-                <td className="py-2">{item['Total Fat Classification']}</td>
-                <td className="py-2">{item['Sugars total Classification']}</td>
-                <td className="py-2">{item['Fiber total dietary Classification']}</td>
-                <td className="py-2">{item['Cholesterol Classification']}</td>
-                <td className="py-2">{item['Health Score Male']}</td>
-                <td className="py-2">{item['Health Score Female']}</td>
+                <td className="py-2 border border-slate-200">{item['WWEIA Category description']}</td>
+                <td className="py-2 border border-slate-200">{item['Protein Classification']}</td>
+                <td className="py-2 border border-slate-200">{item['Energy Classification']}</td>
+                <td className="py-2 border border-slate-200">{item['Carbohydrate Classification']}</td>
+                <td className="py-2 border border-slate-200">{item['Total Fat Classification']}</td>
+                <td className="py-2 border border-slate-200">{item['Sugars total Classification']}</td>
+                <td className="py-2 border border-slate-200">{item['Fiber total dietary Classification']}</td>
+                <td className="py-2 border border-slate-200">{item['Cholesterol Classification']}</td>
+                <td className="py-2 border border-slate-200">{item['Health Score Male']}</td>
+                <td className="py-2 border border-slate-200">{item['Health Score Female']}</td>
               </tr>
             ))}
           </tbody>

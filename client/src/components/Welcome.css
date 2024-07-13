@@ -1,0 +1,33 @@
+
+
+.welcome-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.welcome-container {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 20%;
+}
+
+.welcome-titlehead {
+  font-size: 70px;
+  color: #d0cbe7;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px #000;
+  justify-items: center;
+  margin-top: 10vh; /* Adjust to move title up */
+}
+
+.welcome-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Change z-index to ensure canvas is behind other content */
+}

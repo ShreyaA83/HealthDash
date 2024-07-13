@@ -11,7 +11,7 @@ const PopupExample = () => {
   
   return( 
     <Popup
-      trigger={<button className="popup-button backdrop-blur-sm rounded-full hover:bg-blue-600 text-white font-bold px-2 py-2  hover:animate-bounce"> i</button>}
+      trigger={<button className="popup-button backdrop-blur-sm rounded-full hover:bg-blue-600 text-zinc-300 font-bold px-2 py-2 hover:animate-bounce"> i</button>}
       position="top center"
       open={isOpen}
       onClose={closePopup}

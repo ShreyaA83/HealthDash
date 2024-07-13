@@ -6,6 +6,7 @@ import MultipleFoodDetails from './components/MultipleFoodDetails';
 import CustomCursor from './components/CustomCursor';
 import { Provider } from 'react-redux';
 import store from './store';
+import Welcome from './components/Welcome';
 
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
       <div className="App">
       <CustomCursor />
         <Routes>
-          <Route path="/" element={<Data />} />
+          <Route path="/" element={<Welcome />} />
+          <Route path="/dataset" element={<Data />} />
           <Route path="/details/:id" element={<Detail />} />
           <Route path="/multiplefooddetails" element={<MultipleFoodDetails />} />
         </Routes>

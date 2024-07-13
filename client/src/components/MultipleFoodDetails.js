@@ -261,68 +261,67 @@ const MultipleFoodDetails = () => {
             </div>
           </div>
         {foodDescriptions.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6 ">
-            <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient">
-            <div className={`rounded-lg shadow-md p-6 ${backgroundColor}`}>
-              <h2 className="text-2xl font-bold mb-4">Total Nutritional Information</h2>
-              <div className="overflow-x-auto">
-              <h2 className="text-lg font-semibold mb-4">Nutrient Information</h2>
-            <div className="mb-4">
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Energy (kcal)</span>
-                <span>{totalNutrition['Energy (kcal)'].toFixed(3)}</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+              <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient">
+                <div className={`rounded-lg shadow-md p-6 ${backgroundColor}`}>
+                  <h2 className="text-2xl font-bold mb-4">Total Nutritional Information</h2>
+                  <div className="overflow-x-auto">
+                    <h2 className="text-lg font-semibold mb-4">Nutrient Information</h2>
+                    <div className="mb-4">
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Energy (kcal)</span>
+                        <span>{totalNutrition['Energy (kcal)'].toFixed(3)}</span>
+                      </div>
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Protein (g)</span>
+                        <span>{totalNutrition['Protein (g)'].toFixed(3)}</span>
+                      </div>
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Carbohydrate (g)</span>
+                        <span>{totalNutrition['Carbohydrate (g)'].toFixed(3)}</span>
+                      </div>
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Total Fat (g)</span>
+                        <span>{totalNutrition['Total Fat (g)'].toFixed(3)}</span>
+                      </div>
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Sugars, total (g)</span>
+                        <span>{totalNutrition['Sugars, total\n(g)'].toFixed(3)}</span>
+                      </div>
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Fiber, total dietary (g)</span>
+                        <span>{totalNutrition['Fiber, total dietary (g)'].toFixed(3)}</span>
+                      </div>
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Cholesterol (g)</span>
+                        <span>{totalNutrition['Cholesterol (g)'].toFixed(3)}</span>
+                      </div>
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Fatty acids total saturated (g)</span>
+                        <span>{totalNutrition['Fatty acids total saturated (g)'].toFixed(3)}</span>
+                      </div>
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Fatty acids total monounsaturated (g)</span>
+                        <span>{totalNutrition['Fatty acids total monounsaturated (g)'].toFixed(3)}</span>
+                      </div>
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Fatty acids total polyunsaturated (g)</span>
+                        <span>{totalNutrition['Fatty acids total polyunsaturated (g)'].toFixed(3)}</span>
+                      </div>
+                      <div className="flex justify-between border-b pb-2 mb-2">
+                        <span className="font-semibold">Sodium (g)</span>
+                        <span>{totalNutrition['Sodium (g)'].toFixed(3)}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Protein (g)</span>
-                <span>{totalNutrition['Protein (g)'].toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Carbohydrate (g)</span>
-                <span>{totalNutrition['Carbohydrate (g)'].toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Total Fat (g)</span>
-                <span>{totalNutrition['Total Fat (g)'].toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Sugars, total (g)</span>
-                <span>{totalNutrition['Sugars, total\n(g)'].toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Fiber, total dietary (g)</span>
-                <span>{totalNutrition['Fiber, total dietary (g)'].toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Cholesterol (g)</span>
-                <span>{totalNutrition['Cholesterol (g)'].toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Fatty acids total saturated (g)</span>
-                <span>{totalNutrition['Fatty acids total saturated (g)'].toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Fatty acids total monounsaturated (g)</span>
-                <span>{totalNutrition['Fatty acids total monounsaturated (g)'].toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Fatty acids total polyunsaturated (g)</span>
-                <span>{totalNutrition['Fatty acids total polyunsaturated (g)'].toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between border-b pb-2 mb-2">
-                <span className="font-semibold">Sodium (g)</span>
-                <span>{totalNutrition['Sodium (g)'].toFixed(3)}</span>
-              </div>
-              </div>
-              </div>
-            </div>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient">
-              <h2 className="text-2xl font-bold mb-4 text-gray-100">Nutritional Information Pie Chart</h2>
-              <div className="flex justify-center items-center bg-custom-gradient">
-                <Pie data={nutritionalData} options={pieOptions} width={350} height={500}/>
-              </div>
-            </div>
-          </div>
+        
+              <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient">
+                <h2 className="text-2xl font-bold mb-4 text-gray-100">Nutritional Information Pie Chart</h2>
+                  <Pie data={nutritionalData} options={pieOptions} width={350} height={500} />
+                  </div>
+      </div>
         )}
         </>
       )}
