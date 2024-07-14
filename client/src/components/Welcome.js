@@ -98,17 +98,18 @@ const Welcome = () => {
 
         if (distance < 40) {
           const angle = Math.atan2(dy, dx);
-          star.originalVx = star.vx; // Store original velocities
-          star.originalVy = star.vy;
-          star.vx = Math.cos(angle) * 4;
-          star.vy = Math.sin(angle) * 4;
-          star.color = '#ffd700';
+          star.originalVx = star.vx * 0.8; // Store original velocities
+          star.originalVy = star.vy * 0.8;
+          star.vx = Math.cos(angle) * 2;
+          star.vy = Math.sin(angle) * 2;
+          const randomColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255},0.8)`;
+          star.currentColor = randomColor;
 
           setTimeout(() => {
-            star.color = '#D3D3D3';
+            star.currentColor = '#D3D3D3';
             star.vx = star.originalVx; // Reset velocities
             star.vy = star.originalVy;
-          }, 5000);
+          }, 6000);
         }
       }
     };
@@ -137,6 +138,10 @@ const Welcome = () => {
         if (stars.some(star => star.color !== '#D3D3D3')) {
           setTimeout(resetStarsStep, resetInterval);
         }
+        setTimeout(() => {
+          stars.currentColor ='#D3D3D3'
+        },8000
+      )
       }
 
       resetStarsStep();
@@ -163,8 +168,9 @@ const Welcome = () => {
     
         // Randomly change color with a certain probability
         if (Math.random() < star.colorChangeProbability) {
-          star.currentColor = `rgb(255,215,0)`;
+          star.currentColor = `rgb(255,215,0,0.6)`;
         }
+
         star.opacity = Math.max(0, Math.min(1, star.opacity));
       }
     
