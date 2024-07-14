@@ -44,7 +44,7 @@ const Data = () => {
       console.error('Error searching:', err);
     }
   };
-  const debouncedSearch = debounce(handleSearch, 5); // Adjust debounce delay as needed (e.g., 300ms)
+  const debouncedSearch = debounce(handleSearch, 2); // Adjust debounce delay as needed (e.g., 300ms)
 
 
   const handleSearchInputChange = (event) => {
@@ -119,11 +119,11 @@ const Data = () => {
     <Layout>
     <div className='pb-5'><Link to="/" className="text-blue-400 hover:text-blue-200 ">&larr; Back to Home</Link>
 </div>
-        <Link to="/multiplefooddetails" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ">
+        <Link to="/multiplefooddetails" target="_blank" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ">
         Multiple Food Details
       </Link>
       <div className="mb-3 md:w-96 mx-auto">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+        <div className="relative mb-4 flex w-full flex-wrap items-stretch p-4">
           <input
         type="text"
         placeholder="Search by description"
@@ -144,14 +144,15 @@ const Data = () => {
           <Spinner />
         </div>
       ) : (
-        <table className="min-w-full bg-gray-500 table-wrp border-collapse">
+        <div className='overflow-x-scroll scroll-smooth'>
+        <table className=" bg-gray-500 table-fixed justify-center items-center sm:table-fixed border-collapse">
         <caption class="caption-top text-zinc-500 pb-4 hover:text-zinc-100">
     These Values are per 100 grams of food or per serving. 
   </caption>
         <CustomCursor/>
-          <thead className="sticky bg-violet-200 border-b sticky top-0">
+          <thead className="sticky bg-violet-200 border-b sticky top-0 ">
             <tr>
-              <th className='border border-slate-200'>Food Code</th>
+              <th className='border border-slate-200 '>Food Code</th>
               <th className='border border-slate-200'>Description</th>
               <th className='border border-slate-200'>WWEIA Category Description</th>
               <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Protein Classification')}>
@@ -172,9 +173,9 @@ const Data = () => {
               <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Fiber total dietary Classification')}>
                 Fiber Total Dietary Classification {sortIcon('Fiber total dietary Classification')}
               </th> 
-              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Cholesterol Classification')}>
+              {/* <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Cholesterol Classification')}>
                 Cholesterol Classification {sortIcon('Cholesterol Classification')}
-              </th>
+              </th> */}
               <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Health Score Male')}>
                 Health Score Male {sortIcon('Health Score Male')}
               </th>
@@ -187,7 +188,14 @@ const Data = () => {
           <CustomCursor/>
             {sortedData.map((item) => (
               <tr key={item._id} className="text-center hover:bg-teal-100 odd:bg-white even:bg-slate-50">
-                <td className="py-2 border border-slate-200">{item['Food code']}</td>
+              <div class="flex items-center">
+                        {/* <input id="checkbox-table-3" 
+                        type="checkbox" 
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 p-2" />
+                        <label for="checkbox-table-3" class="sr-only">checkbox</label> */}
+                    
+                <td className="py-2 border border-slate-200 select-all">{item['Food code']}</td>
+                </div>
                 <td className="py-2 border border-slate-200">
                   <Link to={`/details/${item._id}`} className="text-blue-500">
                     {item['Main food description']}
@@ -200,13 +208,14 @@ const Data = () => {
                 <td className="py-2 border border-slate-200">{item['Total Fat Classification']}</td>
                 <td className="py-2 border border-slate-200">{item['Sugars total Classification']}</td>
                 <td className="py-2 border border-slate-200">{item['Fiber total dietary Classification']}</td>
-                <td className="py-2 border border-slate-200">{item['Cholesterol Classification']}</td>
-                <td className="py-2 border border-slate-200">{item['Health Score Male']}</td>
-                <td className="py-2 border border-slate-200">{item['Health Score Female']}</td>
+                {/* <td className="py-2 border border-slate-200">{item['Cholesterol Classification']}</td> */}
+                <td className="py-2 border border-slate-200">{item['Health Score Male'].toFixed(3)}</td>
+                <td className="py-2 border border-slate-200">{item['Health Score Female'].toFixed(3)}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
       )}
       </Layout>
   );
