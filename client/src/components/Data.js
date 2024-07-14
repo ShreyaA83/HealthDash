@@ -1,10 +1,13 @@
-import React, { useEffect, useState, useMemo } from 'react';
+//Table with copy to clipboard
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Spinner from './Spinner';
 import CustomCursor from './CustomCursor'; // Update the path based on your project structure
 import Layout from './Layout';
 import debounce from 'lodash.debounce';
+import copy from 'clipboard-copy';
+
 
 
 const Data = () => {
@@ -15,12 +18,27 @@ const Data = () => {
   const [clickCount, setClickCount] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const [copied, setCopied] = useState(false);
 
-  const fetchData = async () => {
+  const handleCopyText = (text) => {
+    copy(text)
+      .then(() => {
+        console.log(`Copied ${text} to clipboard successfully`);
+        setCopied(true);
+
+        // Hide the notification after 2 seconds
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error('Failed to copy:', err);
+      });
+  };
+
+  const fetchData = useCallback(async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get('http://localhost:5000/api/data');
       setFilteredData(response.data);
       setIsLoading(false);
@@ -29,7 +47,11 @@ const Data = () => {
       console.error('Error fetching data:', err);
       setIsLoading(false);
     }
-  };
+  }, []);
+  
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
 
   const handleSearch = async (query) => {
@@ -44,11 +66,25 @@ const Data = () => {
       console.error('Error searching:', err);
     }
   };
-  const debouncedSearch = debounce(handleSearch, 2); // Adjust debounce delay as needed (e.g., 300ms)
+  const debouncedSearch = debounce(handleSearch, 200); 
 
 
   const handleSearchInputChange = (event) => {
-    debouncedSearch(event.target.value); // Call debounced function on input change
+    const value = event.target.value;
+    setSearchQuery(value);
+
+    if (value.length > 3) {
+      debouncedSearch(value);
+    } else {
+      // Clear filteredData if search query length is <= 3
+      setFilteredData([]);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch(searchQuery); // Immediately search on Enter key press
+    }
   };
 
   const handleSort = async (columnName) => {
@@ -122,6 +158,8 @@ const Data = () => {
         <Link to="/multiplefooddetails" target="_blank" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ">
         Multiple Food Details
       </Link>
+      {copied && <span className="text-green-500 ml-2">Copied to clipboard!</span>}
+
       <div className="mb-3 md:w-96 mx-auto">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch p-4">
           <input
@@ -129,6 +167,7 @@ const Data = () => {
         placeholder="Search by description"
         value={searchQuery}
         onChange={handleSearchInputChange} 
+        onKeyDown={handleKeyPress}
         className="relative m-0 block flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
       />
           <span className="text-gray-100 input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal text-neutral-700 ">
@@ -144,14 +183,14 @@ const Data = () => {
           <Spinner />
         </div>
       ) : (
-        <div className='overflow-x-scroll scroll-smooth'>
+        <div className='overflow-x-scroll overflow-y-auto'>
+        <CustomCursor />
         <table className=" bg-gray-500 table-fixed justify-center items-center sm:table-fixed border-collapse">
         <caption class="caption-top text-zinc-500 pb-4 hover:text-zinc-100">
     These Values are per 100 grams of food or per serving. 
   </caption>
-        <CustomCursor/>
-          <thead className="sticky bg-violet-200 border-b sticky top-0 ">
-            <tr>
+          <thead className="bg-violet-200 border-b ">
+            <tr className='sticky top-0 '>
               <th className='border border-slate-200 '>Food Code</th>
               <th className='border border-slate-200'>Description</th>
               <th className='border border-slate-200'>WWEIA Category Description</th>
@@ -194,7 +233,9 @@ const Data = () => {
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 p-2" />
                         <label for="checkbox-table-3" class="sr-only">checkbox</label> */}
                     
-                <td className="py-2 border border-slate-200 select-all">{item['Food code']}</td>
+                <td className="py-2 border border-slate-200 select-all" onClick={() => handleCopyText(item['Food code'])} >
+                {item['Food code']}
+                </td>
                 </div>
                 <td className="py-2 border border-slate-200">
                   <Link to={`/details/${item._id}`} className="text-blue-500">
