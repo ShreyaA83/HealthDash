@@ -17,50 +17,175 @@ const DataTable = ({ sortedData, handleCopyText, handleSort, sortIcon, searchQue
               <th className='border border-slate-200'>Description</th>
               <th className='border border-slate-200'>WWEIA Category Description</th>
               <th
-            scope="col"
-            className="py-2  hover:bg-teal-100 duration-300 border border-slate-200"
-            onClick={isSortable ? () => handleSort('Protein Classification') : undefined}>
-            Protein Classification {sortIcon('Protein Classification')}
-          </th>
+  scope="col"
+  className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"
+  onClick={isSortable ? () => handleSort('Protein Classification') : undefined}
+>
+  <div className="flex items-center justify-center">
+    Protein Classification {sortIcon('Protein Classification')}
+    {isSortable && (
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-1">
+        {/* Arrow icon or indicator */}
+        <svg className="w-4 h-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    )}
+  </div>
+</th>
               <th
-            scope="col"
-            className="py-2  hover:bg-teal-100 duration-300 border border-slate-200"
-            onClick={isSortable ? () => handleSort('Energy Classification') : undefined}>
-            Energy Classification {sortIcon('Energy Classification')}
-          </th>
+  scope="col"
+  className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"
+  onClick={isSortable ? () => handleSort('Energy Classification') : undefined}
+>
+  <div className="flex items-center justify-center">
+  Energy Classification {sortIcon('Energy Classification')}
+    {isSortable && (
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-1">
+        {/* Arrow icon or indicator */}
+        <svg className="w-4 h-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    )}
+  </div>
+</th>
               <th
-            scope="col"
-            className="py-2  hover:bg-teal-100 duration-300 border border-slate-200"
-            onClick={isSortable ? () => handleSort('Carbohydrate Classification') : undefined}>
-            Carbohydrate Classification {sortIcon('Carbohydrate Classification')}
-          </th>
-              <th
-            scope="col"
-            className="py-2  hover:bg-teal-100 duration-300 border border-slate-200"
-            onClick={isSortable ? () => handleSort('Total Fat Classification') : undefined}>
-            Total Fat Classification {sortIcon('Total Fat Classification')}
-          </th>
-              <th
-            scope="col"
-            className="py-2  hover:bg-teal-100 duration-300 border border-slate-200"
-            onClick={isSortable ? () => handleSort('Sugars total Classification') : undefined}>
-            Sugars total Classification {sortIcon('Sugars total Classification')}
-          </th>
-              <th
-            scope="col"
-            className="py-2  hover:bg-teal-100 duration-300 border border-slate-200"
-            onClick={isSortable ? () => handleSort('Fiber total dietary Classification') : undefined}>
-            Fiber total dietary Classification {sortIcon('Fiber total dietary Classification')}
-          </th>
+  scope="col"
+  className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"
+  onClick={isSortable ? () => handleSort('Carbohydrate Classification') : undefined}
+>
+  <div className="flex items-center justify-center">
+  Carbohydrate Classification {sortIcon('Carbohydrate Classification')}
+    {isSortable && (
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-1">
+        {/* Arrow icon or indicator */}
+        <svg className="w-4 h-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    )}
+  </div>
+</th>
+               <th
+  scope="col"
+  className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"
+  onClick={isSortable ? () => handleSort('Total Fat Classification') : undefined}
+>
+  <div className="flex items-center justify-center">
+  Total Fat Classification {sortIcon('Total Fat Classification')}
+    {isSortable && (
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-1">
+        {/* Arrow icon or indicator */}
+        <svg className="w-4 h-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    )}
+  </div>
+</th>
+          <th
+  scope="col"
+  className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"
+  onClick={isSortable ? () => handleSort('Total Sugar Classification') : undefined}
+>
+  <div className="flex items-center justify-center">
+  Total Sugar Classification {sortIcon('Total SugarFat Classification')}
+    {isSortable && (
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-1">
+        {/* Arrow icon or indicator */}
+        <svg className="w-4 h-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    )}
+  </div>
+</th>
+ <th
+  scope="col"
+  className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"
+  onClick={isSortable ? () => handleSort('Fiber total dietary Classification') : undefined}
+>
+  <div className="flex items-center justify-center">
+  Fiber total dietary Classification {sortIcon('Fiber total dietary Classification')}
+    {isSortable && (
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-1">
+        {/* Arrow icon or indicator */}
+        <svg className="w-4 h-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    )}
+  </div>
+</th>        
               {/* <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Cholesterol Classification')}>
                 Cholesterol Classification {sortIcon('Cholesterol Classification')}
               </th> */}
-              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Health Score Male')}>
-                Health Score Male {sortIcon('Health Score Male')}
-              </th>
-              <th className="py-2  hover:bg-teal-100 duration-300 border border-slate-200" onClick={() => handleSort('Health Score Female')}>
-                Health Score Female {sortIcon('Health Score Female')}
-              </th>
+              <th
+  scope="col"
+  className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"
+  onClick={isSortable ? () => handleSort('Health Score Male') : undefined}
+>
+  <div className="flex items-center justify-center">
+  Health Score Male {sortIcon('Health Score Male')}
+    {isSortable && (
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-1">
+        {/* Arrow icon or indicator */}
+        <svg className="w-4 h-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    )}
+  </div>
+</th>             <th
+  scope="col"
+  className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"
+  onClick={isSortable ? () => handleSort('Health Score Female') : undefined}
+>
+  <div className="flex items-center justify-center">
+  Health Score Female {sortIcon('Health Score Female')}
+    {isSortable && (
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-1">
+        {/* Arrow icon or indicator */}
+        <svg className="w-4 h-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    )}
+  </div>
+</th>   
             </tr>
           </thead>
           <tbody>
