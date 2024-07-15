@@ -7,10 +7,13 @@ import CustomCursor from './components/CustomCursor';
 import { Provider } from 'react-redux';
 import store from './store';
 import Welcome from './components/Welcome';
+import { DataProvider } from './components/DataContext';
+
 
 
 function App() {
   return (
+    <DataProvider>
     <Provider store={store}>
     <Router>
       <div className="App">
@@ -24,6 +27,7 @@ function App() {
       </div>
     </Router>
     </Provider>
+    </DataProvider>
   );
 }
 

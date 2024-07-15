@@ -100,9 +100,9 @@ const Welcome = () => {
           const angle = Math.atan2(dy, dx);
           star.originalVx = star.vx * 0.8; // Store original velocities
           star.originalVy = star.vy * 0.8;
-          star.vx = Math.cos(angle) * 2;
-          star.vy = Math.sin(angle) * 2;
-          const randomColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255},0.8)`;
+          star.vx = Math.cos(angle) * 4;
+          star.vy = Math.sin(angle) * 4;
+          const randomColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255},1.5)`;
           star.currentColor = randomColor;
 
           setTimeout(() => {

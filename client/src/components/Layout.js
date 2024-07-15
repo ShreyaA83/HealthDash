@@ -14,6 +14,7 @@ const Layout = ({ children }) => {
         </h1>
         <div className="pb-10 md:pb-20">
           {children}
+          <CustomCursor />
         </div>
         <Footer />
       </div>
