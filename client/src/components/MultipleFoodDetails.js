@@ -103,6 +103,7 @@ const MultipleFoodDetails = () => {
   });
   const [foodDescriptions, setFoodDescriptions] = useState([]); 
   const [loading, setLoading] = useState(false); 
+  const [isHovering, setIsHovering] = useState(false);
   const [error, setError] = useState(''); 
   let averageHealthScore = (totalNutrition['Health Score Male'] + totalNutrition['Health Score Female']) / 2;
 
@@ -342,8 +343,16 @@ const MultipleFoodDetails = () => {
           <div className={`flip-card ${isFlipped ? 'flipped' : ''}`} onClick={handleClick}>
         <div className="flip-card-inner">
           <div className="flip-card-back">
-          <div className={`rounded-lg shadow-md p-6 ${backgroundColor}`}>
+          <div className={`rounded-lg shadow-md p-6 ${backgroundColor}`}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+          >
           <h2 className="text-2xl font-bold mb-4">Total Nutritional Information - Male</h2>
+          {isHovering && (
+                <div className="flex justify-center items-center border-b pb-2 mb-2">
+                  <span className="font-bold">Click To Flip</span>
+                </div>
+              )}
               <div className="overflow-x-auto">
                 <h2 className="text-lg font-semibold mb-4">Nutrient Information</h2>
                 <div className="mb-4">
@@ -389,7 +398,7 @@ const MultipleFoodDetails = () => {
                   </div>
                   <div className="flex justify-between border-b pb-2 mb-2">
                     <span className="font-semibold">Sodium (g)</span>
-                    <span>{totalNutrition['Sodium (g)'].toFixed(3)} ({percentageRDA['Sodium (g)'].male.toFixed(2)}% of male RDA)</span>
+                    <span>{totalNutrition['Sodium (g)'].toFixed(3)} </span>
                   </div>
                 </div>
               </div>
@@ -397,9 +406,17 @@ const MultipleFoodDetails = () => {
           </div>
           {/* Female Nutrition Card */}
           <div className="flip-card-front">
-            <div className={`rounded-lg shadow-md p-6 ${backgroundColor}`}>
+            <div className={`rounded-lg shadow-md p-6 ${backgroundColor}`}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+            >
               <h2 className="text-2xl font-bold mb-4">Total Nutritional Information - Female</h2>
               <div className="overflow-x-auto">
+              {isHovering && (
+                <div className="flex justify-center items-center border-b pb-2 mb-2">
+                  <span className="font-bold">Click To Flip</span>
+                </div>
+              )}
                 <h2 className="text-lg font-semibold mb-4">Nutrient Information</h2>
                 <div className="mb-4">
                   <div className="flex justify-between border-b pb-2 mb-2">
@@ -444,7 +461,7 @@ const MultipleFoodDetails = () => {
                   </div>
                   <div className="flex justify-between border-b pb-2 mb-2">
                     <span className="font-semibold">Sodium (g)</span>
-                    <span>{totalNutrition['Sodium (g)'].toFixed(3)} ({percentageRDA['Sodium (g)'].female.toFixed(2)}% of female RDA)</span>
+                    <span>{totalNutrition['Sodium (g)'].toFixed(3)}</span>
                   </div>
                 </div>
               </div>

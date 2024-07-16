@@ -11,7 +11,7 @@ const Spinner = () => {
   ], []);
 
   return (
-    <div className="fixed inset-0 grid place-items-center grid-cols-4 gap-1 bg-black bg-opacity-50 backdrop-blur-xl z-50 p-1">
+    <div className="fixed inset-0 grid place-items-center grid-cols-4 gap-1 bg-custom-gradient bg-opacity-50 backdrop-blur-xl z-50 p-1">
       {loaders}
     </div>
   );
