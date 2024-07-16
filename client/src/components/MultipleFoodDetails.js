@@ -5,9 +5,73 @@ import CustomCursor from './CustomCursor';
 import { Pie } from 'react-chartjs-2';
 import Spinner from './Spinner';
 import Layout from './Layout';
+import './FlipCard.css';
+
+const RDA_MALE = {
+  'Energy (kcal)': 2400,
+  'Protein (g)': 55,
+  'Carbohydrate (g)': 130,
+  'Sugars, total\n(g)': 50,
+  'Fiber, total dietary (g)': 30.8,
+  'Total Fat (g)': 73.34,
+  'Fatty acids total saturated (g)': 26.67,
+  'Fatty acids total monounsaturated (g)': 23.3,
+  'Fatty acids total polyunsaturated (g)': 23.3,
+  'Cholesterol (g)': 0.5,
+  'Vitamin A RAE (g)': 0.0009,
+  'Vitamin B6 (g)': 0.0013,
+  'Calcium (g)': 1,
+  'Magnesium (g)': 0.41,
+  'Selenium (g)': 0.055,
+  'Potassium (g)': 4.7,
+  'Folate total (g)': 0.0004,
+  'Riboflavin (g)': 0.0012,
+  'Choline total (g)': 0.55,
+  'Vitamin K (phylloquinone) (g)': 0.00012,
+  'Vitamin E (alpha tocopherol) (g)': 0.015,
+  'Vitamin D (D2D3) (g)': 0.015,
+  'Vitamin C (g)': 0.09,
+  'Copper (g)': 0.0009,
+  'Iron (g)': 0.008,
+  'Zinc (g)': 0.011,
+};
+
+const RDA_FEMALE = {
+  'Energy (kcal)': 1800,
+  'Protein (g)': 46,
+  'Carbohydrate (g)': 130,
+  'Sugars, total\n(g)': 50,
+  'Fiber, total dietary (g)': 30.8,
+  'Total Fat (g)': 55,
+  'Fatty acids total saturated (g)': 20,
+  'Fatty acids total monounsaturated (g)': 17.5,
+  'Fatty acids total polyunsaturated (g)': 17.5,
+  'Cholesterol (g)': 0.3,
+  'Vitamin A RAE (g)': 0.0007,
+  'Vitamin B6 (g)': 0.0013,
+  'Calcium (g)': 0.7,
+  'Magnesium (g)': 0.315,
+  'Selenium (g)': 0.055,
+  'Potassium (g)': 4.7,
+  'Folate total (g)': 0.0004,
+  'Riboflavin (g)': 0.0011,
+  'Choline total (g)': 0.425,
+  'Vitamin K (phylloquinone) (g)': 0.000009,
+  'Vitamin E (alpha tocopherol) (g)': 0.015,
+  'Vitamin D (D2D3) (g)': 0.015,
+  'Vitamin C (g)': 0.075,
+  'Copper (g)': 0.0009,
+  'Iron (g)': 0.018,
+  'Zinc (g)': 0.008,
+};
+
 
 const MultipleFoodDetails = () => {
   const [foodCodes, setFoodCodes] = useState('');
+  const [percentageRDA, setPercentageRDA] = useState({});
+  const [isFlipped, setIsFlipped] = useState(false);
+
+
   const [totalNutrition, setTotalNutrition] = useState({
     'Energy (kcal)': 0,
     'Protein (g)': 0,
@@ -104,16 +168,26 @@ const MultipleFoodDetails = () => {
 
       totalNutritionValues['Health Score Male'] /= foodCodesArray.length;
       totalNutritionValues['Health Score Female'] /= foodCodesArray.length;
+      const percentageRDA = {};
+    Object.keys(totalNutritionValues).forEach(key => {
+      percentageRDA[key] = {
+        male: (totalNutritionValues[key] / RDA_MALE[key]) * 100,
+        female: (totalNutritionValues[key] / RDA_FEMALE[key]) * 100,
+      };
+    });
 
-      setTotalNutrition(totalNutritionValues);
-      setFoodDescriptions(descriptions);
-    } catch (error) {
-      console.error('Error fetching food details:', error);
-      setError('An error occurred while fetching food details. Please try again.');
-    } finally {
-      setLoading(false); 
-    }
-  };
+    setTotalNutrition(totalNutritionValues);
+    setFoodDescriptions(descriptions);
+    setPercentageRDA(percentageRDA);
+  } catch (error) {
+    console.error('Error fetching food details:', error);
+    setError('An error occurred while fetching food details. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
+      
+
 
   let backgroundColor = '';
   if (averageHealthScore >= 0 && averageHealthScore < 30) {
@@ -211,7 +285,9 @@ const MultipleFoodDetails = () => {
       },
     },
   };
-
+  const handleClick = () => {
+    setIsFlipped(!isFlipped);
+  };
   return (
     <Layout>
     <div className='pb-3'>
@@ -262,61 +338,122 @@ const MultipleFoodDetails = () => {
           </div>
         {foodDescriptions.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-              <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient">
-                <div className={`rounded-lg shadow-md p-6 ${backgroundColor}`}>
-                  <h2 className="text-2xl font-bold mb-4">Total Nutritional Information</h2>
-                  <div className="overflow-x-auto">
-                    <h2 className="text-lg font-semibold mb-4">Nutrient Information</h2>
-                    <div className="mb-4">
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Energy (kcal)</span>
-                        <span>{totalNutrition['Energy (kcal)'].toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Protein (g)</span>
-                        <span>{totalNutrition['Protein (g)'].toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Carbohydrate (g)</span>
-                        <span>{totalNutrition['Carbohydrate (g)'].toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Total Fat (g)</span>
-                        <span>{totalNutrition['Total Fat (g)'].toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Sugars, total (g)</span>
-                        <span>{totalNutrition['Sugars, total\n(g)'].toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Fiber, total dietary (g)</span>
-                        <span>{totalNutrition['Fiber, total dietary (g)'].toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Cholesterol (g)</span>
-                        <span>{totalNutrition['Cholesterol (g)'].toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Fatty acids total saturated (g)</span>
-                        <span>{totalNutrition['Fatty acids total saturated (g)'].toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Fatty acids total monounsaturated (g)</span>
-                        <span>{totalNutrition['Fatty acids total monounsaturated (g)'].toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Fatty acids total polyunsaturated (g)</span>
-                        <span>{totalNutrition['Fatty acids total polyunsaturated (g)'].toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between border-b pb-2 mb-2">
-                        <span className="font-semibold">Sodium (g)</span>
-                        <span>{totalNutrition['Sodium (g)'].toFixed(3)}</span>
-                      </div>
-                    </div>
+          <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient flip-card">
+          <div className={`flip-card ${isFlipped ? 'flipped' : ''}`} onClick={handleClick}>
+        <div className="flip-card-inner">
+          <div className="flip-card-back">
+          <div className={`rounded-lg shadow-md p-6 ${backgroundColor}`}>
+          <h2 className="text-2xl font-bold mb-4">Total Nutritional Information - Male</h2>
+              <div className="overflow-x-auto">
+                <h2 className="text-lg font-semibold mb-4">Nutrient Information</h2>
+                <div className="mb-4">
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Energy (kcal)</span>
+                    <span>{totalNutrition['Energy (kcal)'].toFixed(3)} ({percentageRDA['Energy (kcal)'].male.toFixed(2)}% of male RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Protein (g)</span>
+                    <span>{totalNutrition['Protein (g)'].toFixed(3)} ({percentageRDA['Protein (g)'].male.toFixed(2)}% of male RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Carbohydrate (g)</span>
+                    <span>{totalNutrition['Carbohydrate (g)'].toFixed(3)} ({percentageRDA['Carbohydrate (g)'].male.toFixed(2)}% of male RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Total Fat (g)</span>
+                    <span>{totalNutrition['Total Fat (g)'].toFixed(3)} ({percentageRDA['Total Fat (g)'].male.toFixed(2)}% of male RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Sugars, total (g)</span>
+                    <span>{totalNutrition['Sugars, total\n(g)'].toFixed(3)} ({percentageRDA['Sugars, total\n(g)'].male.toFixed(2)}% of male RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Fiber, total dietary (g)</span>
+                    <span>{totalNutrition['Fiber, total dietary (g)'].toFixed(3)} ({percentageRDA['Fiber, total dietary (g)'].male.toFixed(2)}% of male RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Cholesterol (g)</span>
+                    <span>{totalNutrition['Cholesterol (g)'].toFixed(3)} ({percentageRDA['Cholesterol (g)'].male.toFixed(2)}% of male RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Fatty acids total saturated (g)</span>
+                    <span>{totalNutrition['Fatty acids total saturated (g)'].toFixed(3)} ({percentageRDA['Fatty acids total saturated (g)'].male.toFixed(2)}% of male RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Fatty acids total monounsaturated (g)</span>
+                    <span>{totalNutrition['Fatty acids total monounsaturated (g)'].toFixed(3)} ({percentageRDA['Fatty acids total monounsaturated (g)'].male.toFixed(2)}% of male RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Fatty acids total polyunsaturated (g)</span>
+                    <span>{totalNutrition['Fatty acids total polyunsaturated (g)'].toFixed(3)} ({percentageRDA['Fatty acids total polyunsaturated (g)'].male.toFixed(2)}% of male RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Sodium (g)</span>
+                    <span>{totalNutrition['Sodium (g)'].toFixed(3)} ({percentageRDA['Sodium (g)'].male.toFixed(2)}% of male RDA)</span>
                   </div>
                 </div>
               </div>
-        
+            </div>
+          </div>
+          {/* Female Nutrition Card */}
+          <div className="flip-card-front">
+            <div className={`rounded-lg shadow-md p-6 ${backgroundColor}`}>
+              <h2 className="text-2xl font-bold mb-4">Total Nutritional Information - Female</h2>
+              <div className="overflow-x-auto">
+                <h2 className="text-lg font-semibold mb-4">Nutrient Information</h2>
+                <div className="mb-4">
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Energy (kcal)</span>
+                    <span>{totalNutrition['Energy (kcal)'].toFixed(3)} ({percentageRDA['Energy (kcal)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Protein (g)</span>
+                    <span>{totalNutrition['Protein (g)'].toFixed(3)} ({percentageRDA['Protein (g)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Carbohydrate (g)</span>
+                    <span>{totalNutrition['Carbohydrate (g)'].toFixed(3)} ({percentageRDA['Carbohydrate (g)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Total Fat (g)</span>
+                    <span>{totalNutrition['Total Fat (g)'].toFixed(3)} ({percentageRDA['Total Fat (g)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Sugars, total (g)</span>
+                    <span>{totalNutrition['Sugars, total\n(g)'].toFixed(3)} ({percentageRDA['Sugars, total\n(g)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Fiber, total dietary (g)</span>
+                    <span>{totalNutrition['Fiber, total dietary (g)'].toFixed(3)} ({percentageRDA['Fiber, total dietary (g)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Cholesterol (g)</span>
+                    <span>{totalNutrition['Cholesterol (g)'].toFixed(3)} ({percentageRDA['Cholesterol (g)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Fatty acids total saturated (g)</span>
+                    <span>{totalNutrition['Fatty acids total saturated (g)'].toFixed(3)} ({percentageRDA['Fatty acids total saturated (g)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Fatty acids total monounsaturated (g)</span>
+                    <span>{totalNutrition['Fatty acids total monounsaturated (g)'].toFixed(3)} ({percentageRDA['Fatty acids total monounsaturated (g)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Fatty acids total polyunsaturated (g)</span>
+                    <span>{totalNutrition['Fatty acids total polyunsaturated (g)'].toFixed(3)} ({percentageRDA['Fatty acids total polyunsaturated (g)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2 mb-2">
+                    <span className="font-semibold">Sodium (g)</span>
+                    <span>{totalNutrition['Sodium (g)'].toFixed(3)} ({percentageRDA['Sodium (g)'].female.toFixed(2)}% of female RDA)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
               <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient">
                 <h2 className="text-2xl font-bold mb-4 text-gray-100">Nutritional Information Pie Chart</h2>
                   <Pie data={nutritionalData} options={pieOptions} width={350} height={500} />
