@@ -5,14 +5,14 @@ import CustomCursor from './CustomCursor'; // Ensure this is the correct path
 const DataTable = ({ sortedData, handleCopyText, handleSort, sortIcon, searchQuery }) => {
     const isSortable = searchQuery.length > 0;
     return (
-        <div className='overflow-x-scroll overflow-y-auto'>
+        <div className='overflow-x-scroll z-100 overflow-y-auto'>
         <CustomCursor />
         <table className=" bg-gray-500 table-fixed justify-center items-center sm:table-fixed border-collapse">
         <caption class="caption-top text-zinc-500 pb-4 hover:text-zinc-100">
     These Values are per 100 grams of food or per serving. 
-  </caption>
-          <thead className="bg-violet-200 border-b ">
-            <tr className='sticky top-0 '>
+  </caption>  
+          <thead className="bg-violet-200 sticky top-0">
+            <tr className="sticky top-0">
               <th className='border border-slate-200 '>Food Code</th>
               <th className='border border-slate-200'>Description</th>
               <th className='border border-slate-200'>WWEIA Category Description</th>
@@ -100,13 +100,14 @@ const DataTable = ({ sortedData, handleCopyText, handleSort, sortIcon, searchQue
     )}
   </div>
 </th>
-          <th
+           <th
   scope="col"
   className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"
-  onClick={isSortable ? () => handleSort('Total Sugar Classification') : undefined}
+  onClick={isSortable ? () => handleSort('Sugars total Classification') : undefined}
 >
   <div className="flex items-center justify-center">
-  Total Sugar Classification {sortIcon('Total SugarFat Classification')}
+  <text className='whitespace-pre-line'> Sugars total    
+  Classification </text>{sortIcon('Sugars total Classification')}
     {isSortable && (
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-1">
         {/* Arrow icon or indicator */}
@@ -120,7 +121,7 @@ const DataTable = ({ sortedData, handleCopyText, handleSort, sortIcon, searchQue
       </div>
     )}
   </div>
-</th>
+</th>  
  <th
   scope="col"
   className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"

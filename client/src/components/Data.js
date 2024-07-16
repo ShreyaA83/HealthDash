@@ -74,7 +74,7 @@ const Data = () => {
       console.error('Error searching:', err);
     }
   };
-  const debouncedSearch = debounce(handleSearch, 200);
+  const debouncedSearch = debounce(handleSearch, 240);
 
 
   const handleSearchInputChange = (event) => {
