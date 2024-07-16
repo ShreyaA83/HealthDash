@@ -10,6 +10,7 @@ import copy from 'clipboard-copy';
 import { DataContext } from './DataContext';
 
 
+
 const DataTable = lazy(() => import('./DataTable'));
 
 const Data = () => {
@@ -20,23 +21,30 @@ const Data = () => {
   const [order, setOrder] = useState('asc');
   const [clickCount, setClickCount] = useState({});
   const [copied, setCopied] = useState(false);
+  const [clickedFoodCodes, setClickedFoodCodes] = useState([]);
 
 
   const handleCopyText = (text) => {
-    copy(text)
+    setClickedFoodCodes((prevCodes) => [...prevCodes, text]);
+  };
+  
+  const handleCopyAllFoodCodes = () => {
+    const allFoodCodes = clickedFoodCodes.join(', ');
+    copy(allFoodCodes)
       .then(() => {
-        console.log(`Copied ${text} to clipboard successfully`);
+        console.log(`Copied all food codes: ${allFoodCodes}`);
         setCopied(true);
-
+  
         // Hide the notification after 2 seconds
         setTimeout(() => {
           setCopied(false);
         }, 2000);
       })
       .catch((err) => {
-        console.error('Failed to copy:', err);
+        console.error('Failed to copy all food codes:', err);
       });
   };
+    
 
   const fetchData = useCallback(async () => {
     if (data.length === 0) {
@@ -195,6 +203,18 @@ const Data = () => {
       ) : (
         <Suspense fallback={<Spinner />}>
         <CustomCursor />
+        <div className="relative mb-4 flex w-full flex-wrap items-stretch p-4">
+    <div className="flex-1 border border-gray-300 p-2 rounded">
+      <p className="text-sm text-gray-300">Selected Food Codes:</p>
+      <p className="text-sm text-gray-100">{clickedFoodCodes.join(', ')}</p>
+    </div>
+    <button
+      onClick={handleCopyAllFoodCodes}
+      className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+    >
+      Copy All Food Codes
+    </button>
+  </div>
             <DataTable
             sortedData={sortedData}
             handleCopyText={handleCopyText}
