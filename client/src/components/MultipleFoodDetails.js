@@ -6,6 +6,7 @@ import { Pie } from 'react-chartjs-2';
 import Spinner from './Spinner';
 import Layout from './Layout';
 import './FlipCard.css';
+import API_BASE_URL from '../config';
 
 const RDA_MALE = {
   'Energy (kcal)': 2400,

@@ -9,8 +9,6 @@ import store from './store';
 import Welcome from './components/Welcome';
 import { DataProvider } from './components/DataContext';
 
-
-
 function App() {
   return (
     <DataProvider>
