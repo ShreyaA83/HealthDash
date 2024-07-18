@@ -17,9 +17,6 @@ logs/
 # Testing
 /coverage
 
-# Production
-/build
-
 # IDE and editor files (optional)
 .vscode/
 .idea/
@@ -39,7 +36,6 @@ package-lock.json
 *.min.js
 *.min.css
 *.bundle.js
-/public
 
 # Temporary files
 /tmp
