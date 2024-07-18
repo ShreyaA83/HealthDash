@@ -5,6 +5,7 @@ import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import Layout from './Layout';
 import Spinner from './Spinner';
+import API_BASE_URL from '../config'
 
 
 Chart.register(ArcElement, Tooltip, Legend);
@@ -17,7 +18,7 @@ const Detail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/data/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/api/data/${id}`);
         console.log('Fetched Detail Data:', response.data);
         setDetailData(response.data);
       } catch (err) {

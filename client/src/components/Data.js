@@ -8,6 +8,7 @@ import Layout from './Layout';
 import debounce from 'lodash.debounce';
 import copy from 'clipboard-copy';
 import { DataContext } from './DataContext';
+import API_BASE_URL from '../config'
 
 
 
@@ -50,7 +51,7 @@ const Data = () => {
     if (data.length === 0) {
       try {
         setIsLoading(true);
-        const response = await axios.get('http://localhost:5000/api/data');
+        const response = await axios.get(`${API_BASE_URL}/api/data`);
         setData(response.data);
         setFilteredData(response.data);
         setIsLoading(false);
@@ -73,7 +74,7 @@ const Data = () => {
   const handleSearch = async (query) => {
     setSearchQuery(query);
     try {
-      const response = await axios.get('http://localhost:5000/api/data', {
+      const response = await axios.get((`${API_BASE_URL}/api/data`), {
         params: { query, sortBy, order }
       });
       setFilteredData(response.data);
@@ -120,7 +121,7 @@ const Data = () => {
       setClickCount({ ...clickCount, [columnName]: 1 });
     }
     try {
-      const response = await axios.get('http://localhost:5000/api/data', {
+      const response = await axios.get((`${API_BASE_URL}/api/data`), {
         params: { query: searchQuery, sortBy: columnName, order: order === 'desc' ? 'asc' : 'desc' }
       });
       setFilteredData(response.data);

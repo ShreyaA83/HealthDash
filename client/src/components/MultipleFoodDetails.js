@@ -154,7 +154,7 @@ const MultipleFoodDetails = () => {
       let descriptions = [];
       for (let code of foodCodesArray) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/code/${code}`);
+          const response = await axios.get(`${API_BASE_URL}/api/code/${code}`);
           const foodDetails = response.data;
           descriptions.push(foodDetails[0]['Main food description']);
 
