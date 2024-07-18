@@ -6,7 +6,7 @@ require('dotenv').config()
 const app = express();
 app.use(cors(
   {
-    origin : ["https://health-dash-backend.vercel.app"],
+
     methods : ["POST", "GET"],
     credentials : true
   }
