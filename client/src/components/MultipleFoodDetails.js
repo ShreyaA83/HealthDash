@@ -338,9 +338,9 @@ const MultipleFoodDetails = () => {
             </div>
           </div>
         {foodDescriptions.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-          <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient flip-card">
-          <div className={`flip-card ${isFlipped ? 'flipped' : ''}`} onClick={handleClick}>
+          <div className="grid grid-cols-2 p-1 md:grid-cols-2 sm:grid-cols-2 gap-4 mt-20 mb-20 md:max-md:flex xs:min-md:flex md:auto-cols-min  grid-cols-*" >
+          <div className="bg-white p-4 rounded-lg shadow-md bg-custom-gradient flip-card ">
+          <div className={`flip-card ${isFlipped ? 'flipped' : ''} `} onClick={handleClick}>
         <div className="flip-card-inner">
           <div className="flip-card-back">
           <div className={`rounded-lg shadow-md p-6 ${backgroundColor}`}
@@ -349,13 +349,13 @@ const MultipleFoodDetails = () => {
           >
           <h2 className="text-2xl font-bold mb-4">Total Nutritional Information - Male</h2>
           {isHovering && (
-                <div className="flex justify-center items-center border-b pb-2 mb-2">
+                <div className="flex justify-center items-center border-b pb-1 ">
                   <span className="font-bold">Click To Flip</span>
                 </div>
               )}
               <div className="overflow-x-auto">
                 <h2 className="text-lg font-semibold mb-4">Nutrient Information</h2>
-                <div className="mb-4">
+                <div className="mb-2">
                   <div className="flex justify-between border-b pb-2 mb-2">
                     <span className="font-semibold">Energy (kcal)</span>
                     <span>{totalNutrition['Energy (kcal)'].toFixed(3)} ({percentageRDA['Energy (kcal)'].male.toFixed(2)}% of male RDA)</span>
@@ -411,14 +411,14 @@ const MultipleFoodDetails = () => {
             onMouseLeave={() => setIsHovering(false)}
             >
               <h2 className="text-2xl font-bold mb-4">Total Nutritional Information - Female</h2>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto ">
               {isHovering && (
-                <div className="flex justify-center items-center border-b pb-2 mb-2">
+                <div className="flex justify-center items-center border-b pb-1">
                   <span className="font-bold">Click To Flip</span>
                 </div>
               )}
                 <h2 className="text-lg font-semibold mb-4">Nutrient Information</h2>
-                <div className="mb-4">
+                <div className="mb-2">
                   <div className="flex justify-between border-b pb-2 mb-2">
                     <span className="font-semibold">Energy (kcal)</span>
                     <span>{totalNutrition['Energy (kcal)'].toFixed(3)} ({percentageRDA['Energy (kcal)'].female.toFixed(2)}% of female RDA)</span>
@@ -471,11 +471,12 @@ const MultipleFoodDetails = () => {
       </div>
       </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient">
+              <div className="bg-white p-6 rounded-lg shadow-md bg-custom-gradient md:max-sm:grid  sm:max-sm:grid">
                 <h2 className="text-2xl font-bold mb-4 text-gray-100">Nutritional Information Pie Chart</h2>
                   <Pie data={nutritionalData} options={pieOptions} width={350} height={500} />
                   </div>
       </div>
+      
         )}
         </>
       )}
