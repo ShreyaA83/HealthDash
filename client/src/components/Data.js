@@ -173,7 +173,7 @@ const Data = () => {
     <Layout>
     <div className='pb-5'><Link to="/" className="text-blue-400 hover:text-blue-200 ">&larr; Back to Home</Link>
 </div>
-        <Link to="/multiplefooddetails" target="_blank" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ">
+        <Link to="/multiplefooddetails" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ">
         Multiple Food Details
       </Link>
       {copied && <span className="text-green-500 ml-2">Copied to clipboard!</span>}

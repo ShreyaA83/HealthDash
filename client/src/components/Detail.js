@@ -141,7 +141,7 @@ const Detail = () => {
     <div class="flex flex-col space-y-4">
         <div><Link to="/dataset" className="text-blue-400 hover:text-blue-200 pb-10">&larr; Back to Data</Link>
 </div>
-      <div><Link to="/multiplefooddetails" target='_blank' className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+      <div><Link to="/multiplefooddetails" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
         Multiple Food Details
       </Link>
       </div>
