@@ -6,6 +6,7 @@
 .env.production.local
 .env.development
 .env.production
+
 # Logs (if applicable)
 logs/
 *.log
