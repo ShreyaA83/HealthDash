@@ -334,9 +334,9 @@ const MultipleFoodDetails = () => {
                 <li key={index} className="text-lg text-gray-100">{description}</li>
               ))}
             </ul>
-            <div className="mt-4">
+            {/* <div className="mt-4">
               <p className="text-md text-gray-100">Average Health Score: {averageHealthScore.toFixed(2)}</p>
-            </div>
+            </div> */}
           </div>
         {foodDescriptions.length > 0 && (
           <div className="grid grid-cols-2 p-1 md:grid-cols-2 sm:grid-cols-2 gap-4 mt-20 mb-20 md:max-md:flex xs:min-md:flex md:auto-cols-min  grid-cols-*" >
