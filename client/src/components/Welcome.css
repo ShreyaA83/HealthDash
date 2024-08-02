@@ -12,15 +12,27 @@
   position: relative;
   z-index: 1;
   padding-bottom: 20%;
+  
 }
 
 .welcome-titlehead {
-  font-size: 70px;
-  color: #d0cbe7;
+  font-size: 3rem; /* Equivalent to text-5xl */
   font-weight: 700;
-  text-shadow: 2px 2px 4px #000;
-  justify-items: center;
-  margin-top: 10vh; /* Adjust to move title up */
+  color: rgba(152, 212, 209, 0.837); /* Text color is transparent to show gradient */
+  -webkit-background-clip: text; /* Clip the gradient to text for WebKit browsers */
+  background-clip: text; /* Clip the gradient to text for other browsers */
+  margin-top: 0; /* Remove top margin */
+  padding: 20px; /* Padding around text */
+  background: rgba(12, 18, 18, 0.9); /* Dark semi-transparent background for contrast */
+
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for better visibility */
+  z-index: 1; /* Ensure container is on top */
+
+  /* Responsive font-size */
+  @media (min-width: 768px) { /* md breakpoint */
+    font-size: 4.5rem; /* Equivalent to md:text-7xl */
+  }
 }
 
 .welcome-canvas {
@@ -30,4 +42,13 @@
   width: 100%;
   height: 100%;
   z-index: -1; /* Change z-index to ensure canvas is behind other content */
+}
+ .welcome-button{
+  background: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background for contrast */
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for better visibility */
+  z-index: 1; /* Ensure container is on top */
+ }
+ .heading-background {
+ display: none;
 }

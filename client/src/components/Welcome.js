@@ -1,10 +1,55 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Welcome.css';
 import Layout from './Layout';
 
+const imageUrls = [
+  require('../assets/welcome/avocado-svgrepo-com.png'),
+  require('../assets/welcome/strawberry-juice-svgrepo-com.png'),
+  require('../assets/welcome/ice-cream-svgrepo-com.png'),
+  require('../assets/welcome/cake-candle-svgrepo-com.png'),
+  require('../assets/welcome/cherry-svgrepo-com.png'),
+  require('../assets/welcome/chicken-turkey-3-svgrepo-com.png'),
+  require('../assets/welcome/chocolate-svgrepo-com.png'),
+  require('../assets/welcome/food-food-and-restauran-restauran-menu-svgrepo-com.png'),
+  require('../assets/welcome/food-fruit-fruits-10-svgrepo-com.png'),
+  require('../assets/welcome/food-fruit-fruits-11-svgrepo-com.png'),
+  require('../assets/welcome/food-fruit-fruits-12-svgrepo-com.png'),
+  require('../assets/welcome/food-fruit-fruits-8-svgrepo-com.png'),
+  require('../assets/welcome/fish-svgrepo-com.png'),
+  require('../assets/welcome/french-fries.png'),
+  require('../assets/welcome/fried-egg.png'),
+  require('../assets/welcome/hamburger.png'),
+  require('../assets/welcome/cookies.png'),
+  require('../assets/welcome/food-fruit-fruits-4-svgrepo-com.png'),
+  require('../assets/welcome/laugh (1).png'),
+  require('../assets/welcome/laugh.png'),
+];
+
+const loadImages = async (urls) => {
+  return Promise.all(urls.map((url) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = url;
+      img.onload = () => resolve(img);
+      setTimeout(() => resolve(img), 100); 
+    });
+  }));
+};
+
+
 const Welcome = () => {
+  const [images, setImages] = useState([]);
+
   useEffect(() => {
+    loadImages(imageUrls).then(loadedImages => {
+      setImages(loadedImages);
+    }).catch(error => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    if (images.length === 0) return;
+
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     if (!canvas || !ctx) {
@@ -20,35 +65,62 @@ const Welcome = () => {
     resizeCanvas();
 
     const stars = [];
-    const numStars = 450;
+    const numStars = 150;
+    
     for (let i = 0; i < numStars; i++) {
+      let x = Math.random() * canvas.width;
+      let y = Math.random() * canvas.height;
+    
+      if (Math.abs(x - y) < 40) {
+        x += 40;
+        if (x > canvas.width) {
+          x = canvas.width - 40;
+        }
+      }
+    
       stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 1 + 1,
+        x,
+        y,
+        radius: Math.random() * 20 + 10,
         vx: Math.random() * 0.5 - 0.25,
         vy: Math.random() * 0.5 - 0.25,
-        color: '#D3D3D3',
-        originalColor: '#D3D3D3', // Store original color
-        // currentColor: '#D3D3D3', // Current color that may change
-        opacity: Math.random(),
-        twinklingSpeed: Math.random() * 0.09,
-        colorChangeProbability: 0.001, 
+        image: images[Math.floor(Math.random() * images.length)]
       });
     }
-
-    const drawStars = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < numStars; i++) {
-        const star = stars[i];
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`; // Use opacity for twinkling effect
-        ctx.fillStyle = star.currentColor; // Use currentColor for the star
-        ctx.fill();
-      }
-    };
     
+    const drawImages = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const transparency = 0.7; 
+      ctx.globalAlpha = transparency;
+    
+      stars.forEach(star => {
+        const { x, y, image, radius } = star;
+        if (image) {
+          const imageWidth = radius * 1;
+          const aspectRatio = image.naturalWidth / image.naturalHeight;
+          const imageHeight = imageWidth / aspectRatio;
+    
+          // Calculate scale factor to ensure image is drawn at a high resolution
+          const scaleFactor = 1.4; // Adjust this value as needed based on image resolution
+          const scaledWidth = imageWidth * scaleFactor;
+          const scaledHeight = imageHeight * scaleFactor;
+    
+          // Draw the image at a higher resolution and then scale it down if necessary
+          ctx.drawImage(
+            image,
+            x - scaledWidth / 1.4, 
+            y - scaledHeight / 1.4, 
+            scaledWidth, 
+            scaledHeight
+          );
+    
+          // Optionally, reset the transform if any other drawing operations are performed
+          ctx.setTransform(1, 0, 0, 1, 0, 0); 
+        }
+      });
+      
+      ctx.globalAlpha = 1;
+    };
     
 
     const drawLinkers = () => {
@@ -61,7 +133,7 @@ const Welcome = () => {
           const dx = star1.x - star2.x;
           const dy = star1.y - star2.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < 100) { // Adjust this distance as needed
+          if (distance < 70) {
             ctx.beginPath();
             ctx.moveTo(star1.x, star1.y);
             ctx.lineTo(star2.x, star2.y);
@@ -72,140 +144,73 @@ const Welcome = () => {
     };
 
     const moveStars = () => {
-      for (let i = 0; i < numStars; i++) {
-        const star = stars[i];
+      stars.forEach(star => {
         star.x += star.vx;
         star.y += star.vy;
-
         if (star.x < 0 || star.x > canvas.width) {
           star.vx = -star.vx;
         }
         if (star.y < 0 || star.y > canvas.height) {
           star.vy = -star.vy;
         }
-      }
+      });
     };
 
     const handleMouseMove = (event) => {
       const mouseX = event.clientX;
       const mouseY = event.clientY;
-
-      for (let i = 0; i < numStars; i++) {
-        const star = stars[i];
+      stars.forEach(star => {
         const dx = star.x - mouseX;
         const dy = star.y - mouseY;
         const distance = Math.sqrt(dx * dx + dy * dy);
-
         if (distance < 40) {
           const angle = Math.atan2(dy, dx);
-          star.originalVx = star.vx * 0.8; // Store original velocities
-          star.originalVy = star.vy * 0.8;
-          star.vx = Math.cos(angle) * 2;
-          star.vy = Math.sin(angle) * 2;
-          const randomColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 2.5)`;
-          star.currentColor = randomColor;
-
+          star.originalVx = star.vx * 1.2;
+          star.originalVy = star.vy * 1.2;
+          star.vx = Math.cos(angle) * 0.8;
+          star.vy = Math.sin(angle) * 0.8;
           setTimeout(() => {
-            star.currentColor = '#D3D3D3';
-            star.vx = star.originalVx; // Reset velocities
+            star.vx = star.originalVx;
             star.vy = star.originalVy;
-          }, 6000);
+          }, 4000);
         }
-      }
+      });
     };
-
-    const resetStars = () => {
-      const resetInterval = 1;
-      const numResetSteps = 7;
-      const starsPerStep = Math.ceil(numStars / numResetSteps);
-
-      function resetStarsStep() {
-        for (let i = 0; i < starsPerStep; i++) {
-          const index = Math.floor(Math.random() * numStars);
-          stars[index] = {
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 1 + 1,
-            vx: Math.random() * 0.5 - 0.25,
-            vy: Math.random() * 0.5 - 0.25,
-            color: '#D3D3D3',
-            originalVx: 0,
-            originalVy: 0,
-          };
-        }
-
-
-        if (stars.some(star => star.color !== '#D3D3D3')) {
-          setTimeout(resetStarsStep, resetInterval);
-        }
-        setTimeout(() => {
-          stars.currentColor ='#D3D3D3'
-        },8000
-      )
-      }
-
-      resetStarsStep();
-    };
-
-    resetStars();
-
-    window.addEventListener('mousemove', handleMouseMove);
 
     const animate = () => {
-      drawStars();
-    
-      // Update star opacity and color for twinkling effect
-      for (let i = 0; i < numStars; i++) {
-        const star = stars[i];
-        star.opacity += star.twinklingSpeed;    
-        if (star.opacity > 1) {
-          star.twinklingSpeed *= -1; // Reverse twinkling direction
-        }
-        if (star.opacity < 0) {
-          star.opacity = 0; // Ensure opacity doesn't go negative
-          star.twinklingSpeed *= -1; // Reverse twinkling direction
-        }
-    
-        // Randomly change color with a certain probability
-        if (Math.random() < star.colorChangeProbability) {
-          star.currentColor = `rgb(255,215,0,0.6)`;
-        }
-
-        star.opacity = Math.max(0, Math.min(1, star.opacity));
-      }
-    
+      drawImages();
       drawLinkers();
       moveStars();
       requestAnimationFrame(animate);
     };
-    
-    
-    animate();
 
     window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    animate();
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', resizeCanvas);
     };
-  }, []);
+  }, [images]);
 
   return (
-    <Layout>
-        <div className="welcome-body">
-          <div className="welcome-container">
-            <h1 className="welcome-titlehead">Welcome</h1>
-            <div className="p-2">
-              <Link
-                to="/dataset"
-                className="bg-gray-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-              >
-                Browse Data
-              </Link>
-            </div>
+    <Layout headingText="Nutrition Hub" headingClass="heading-background">
+      <div className="welcome-body">
+        <canvas id="bgCanvas" className="welcome-canvas"></canvas>
+        <div className="welcome-container">
+           <h1 className="welcome-titlehead">Nutrition Hub </h1>
+          <div className="p-2">
+            <Link
+              to="/dataset"
+              className="bg-emerald-800 hover:bg-blue-700 text-white py-2 px-4 rounded welcome-button"
+            >
+              Browse Data
+            </Link>
           </div>
-          <canvas id="bgCanvas" className="welcome-canvas"></canvas>
         </div>
+      </div>
     </Layout>
   );
 };

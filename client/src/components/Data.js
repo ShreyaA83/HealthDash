@@ -206,7 +206,7 @@ const Data = () => {
         <CustomCursor />
         <div className="relative mb-4 flex w-full flex-wrap items-stretch p-4">
     <div className="flex-1 border border-gray-300 p-2 rounded">
-      <p className="text-sm text-gray-300">Selected Food Codes:</p>
+      <p className="text-sm text-gray-300">[Click on desired FoodCodes to insert here]<br></br>Selected Food Codes: </p>
       <p className="text-sm text-gray-100">{clickedFoodCodes.join(', ')}</p>
     </div>
     <button
