@@ -5,25 +5,25 @@ import Layout from './Layout';
 
 const imageUrls = [
   require('../assets/welcome/avocado-svgrepo-com.png'),
-  require('../assets/welcome/strawberry-juice-svgrepo-com.png'),
+  // require('../assets/welcome/strawberry-juice-svgrepo-com.png'),
   require('../assets/welcome/ice-cream-svgrepo-com.png'),
-  require('../assets/welcome/cake-candle-svgrepo-com.png'),
+  // require('../assets/welcome/cake-candle-svgrepo-com.png'),
   require('../assets/welcome/cherry-svgrepo-com.png'),
   require('../assets/welcome/chicken-turkey-3-svgrepo-com.png'),
-  require('../assets/welcome/chocolate-svgrepo-com.png'),
-  require('../assets/welcome/food-food-and-restauran-restauran-menu-svgrepo-com.png'),
+  // require('../assets/welcome/chocolate-svgrepo-com.png'),
+  // require('../assets/welcome/food-food-and-restauran-restauran-menu-svgrepo-com.png'),
   require('../assets/welcome/food-fruit-fruits-10-svgrepo-com.png'),
-  require('../assets/welcome/food-fruit-fruits-11-svgrepo-com.png'),
+  // require('../assets/welcome/food-fruit-fruits-11-svgrepo-com.png'),
   require('../assets/welcome/food-fruit-fruits-12-svgrepo-com.png'),
   require('../assets/welcome/food-fruit-fruits-8-svgrepo-com.png'),
-  require('../assets/welcome/fish-svgrepo-com.png'),
-  require('../assets/welcome/french-fries.png'),
+  // require('../assets/welcome/fish-svgrepo-com.png'),
+  // require('../assets/welcome/french-fries.png'),
   require('../assets/welcome/fried-egg.png'),
-  require('../assets/welcome/hamburger.png'),
-  require('../assets/welcome/cookies.png'),
+  // require('../assets/welcome/hamburger.png'),
+  // require('../assets/welcome/cookies.png'),
   require('../assets/welcome/food-fruit-fruits-4-svgrepo-com.png'),
-  require('../assets/welcome/laugh (1).png'),
-  require('../assets/welcome/laugh.png'),
+  // require('../assets/welcome/laugh (1).png'),
+  // require('../assets/welcome/laugh.png'),
 ];
 
 const loadImages = async (urls) => {
@@ -65,7 +65,7 @@ const Welcome = () => {
     resizeCanvas();
 
     const stars = [];
-    const numStars = 150;
+    const numStars = 200;
     
     for (let i = 0; i < numStars; i++) {
       let x = Math.random() * canvas.width;
@@ -82,21 +82,21 @@ const Welcome = () => {
         x,
         y,
         radius: Math.random() * 20 + 10,
-        vx: Math.random() * 0.5 - 0.25,
-        vy: Math.random() * 0.5 - 0.25,
+        vx: Math.random() * 0.5 - 0.15,
+        vy: Math.random() * 0.5 - 0.15,
         image: images[Math.floor(Math.random() * images.length)]
       });
     }
     
     const drawImages = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const transparency = 0.7; 
+      const transparency = 0.8; 
       ctx.globalAlpha = transparency;
     
       stars.forEach(star => {
         const { x, y, image, radius } = star;
         if (image) {
-          const imageWidth = radius * 1;
+          const imageWidth = radius * 0.8;
           const aspectRatio = image.naturalWidth / image.naturalHeight;
           const imageHeight = imageWidth / aspectRatio;
     
@@ -124,7 +124,7 @@ const Welcome = () => {
     
 
     const drawLinkers = () => {
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.strokeStyle = 'rgba(255, 215, 0, 0.1)';
       ctx.lineWidth = 0.3;
       for (let i = 0; i < numStars; i++) {
         for (let j = i + 1; j < numStars; j++) {
@@ -165,14 +165,14 @@ const Welcome = () => {
         const distance = Math.sqrt(dx * dx + dy * dy);
         if (distance < 40) {
           const angle = Math.atan2(dy, dx);
-          star.originalVx = star.vx * 1.2;
-          star.originalVy = star.vy * 1.2;
+          star.originalVx = star.vx*0.6 ;
+          star.originalVy = star.vy*0.6 ;
           star.vx = Math.cos(angle) * 0.8;
           star.vy = Math.sin(angle) * 0.8;
           setTimeout(() => {
             star.vx = star.originalVx;
             star.vy = star.originalVy;
-          }, 4000);
+          }, 2000);
         }
       });
     };
