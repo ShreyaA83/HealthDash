@@ -11,6 +11,13 @@ const CustomCursor = () => {
   const cursorType = useSelector(state => state.cursorType);
   const location = useLocation();
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    // Check for touch devices more specifically for mobile
+    const userAgent = navigator.userAgent.toLowerCase();
+    setIsTouchDevice(/iphone|ipod|ipad|android/.test(userAgent));
+  }, []);
 
   useEffect(() => {
     const updateMousePosition = (e) => {
@@ -88,7 +95,6 @@ const CustomCursor = () => {
         link.removeEventListener('click', handleLinkClick);
         link.removeEventListener('mouseenter', handleLinkHover);
         link.removeEventListener('mouseleave', handleLinkLeave);
-        
       });
 
       document.querySelectorAll('input, textarea, text').forEach(input => {
@@ -118,6 +124,11 @@ const CustomCursor = () => {
         return <DefaultCursor />;
     }
   };
+
+  // Return null if it's a touch device
+  if (isTouchDevice) {
+    return null;
+  }
 
   return (
     <div

@@ -201,12 +201,18 @@ const Welcome = () => {
         <canvas id="bgCanvas" className="welcome-canvas"></canvas>
         <div className="welcome-container">
            <h1 className="welcome-titlehead">Nutrition Hub </h1>
-          <div className="p-2">
+          <div className="p-2 button-container">
             <Link
               to="/dataset"
-              className="bg-emerald-800 hover:bg-blue-700 text-white py-2 px-4 rounded welcome-button"
+              className="flex-grow bg-emerald-800 hover:bg-blue-700 text-white py-2 px-4 rounded welcome-button"
             >
               Browse Data
+            </Link>
+            <Link
+              to="/"
+              className="flex-grow bg-emerald-800 hover:bg-blue-700 text-white py-2 px-4 rounded welcome-button"
+            >
+              Main
             </Link>
           </div>
         </div>

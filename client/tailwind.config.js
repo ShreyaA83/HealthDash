@@ -17,6 +17,8 @@ module.exports = {
     extend: {
       backgroundImage: theme => ({
         'custom-gradient': 'linear-gradient(90deg, rgba(16,15,21,1) 0%, rgba(32,32,36,1) 46%, rgba(16,15,21,1) 100%)',
+        // 'custom-gradient': ' linear-gradient(90deg, rgba(251,255,239,1) 14%, rgba(239,248,255,1) 40%, rgba(237,252,255,1) 60%, rgba(253,255,255,1) 77%)',
+
       }),
       boxShadow: theme => ({
         'outline-shadow': '0 0 10px rgba(191, 169, 217, 0.99)', // Adjust the values as needed

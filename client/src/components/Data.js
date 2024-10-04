@@ -171,7 +171,7 @@ const Data = () => {
 
   return (
     <Layout>
-    <div className='pb-5'><Link to="/" className="text-blue-400 hover:text-blue-200 ">&larr; Back to Home</Link>
+    <div className='pb-5'><Link to="/welcome" className="text-blue-400 hover:text-blue-200 ">&larr; Back to Home</Link>
 </div>
         <Link to="/multiplefooddetails" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ">
         Multiple Food Details

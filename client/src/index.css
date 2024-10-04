@@ -1,5 +1,4 @@
 /* index.css or tailwind.css */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,9 +6,11 @@
 body {
   margin: 0;
   cursor: none;
-  font-family: Bookman, URW Bookman L, serif	;
+
+font: 1 rem "american typewriter",serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
 a,link, button {
   cursor: none; 

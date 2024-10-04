@@ -48,7 +48,15 @@
   border-radius: 10px; /* Rounded corners for the container */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for better visibility */
   z-index: 1; /* Ensure container is on top */
+  text-align: center;
+  flex-grow: 1;
+  
  }
  .heading-background {
  display: none;
+}
+.button-container{
+  display: flex;
+  gap: 10px;              
+  justify-content: center; 
 }

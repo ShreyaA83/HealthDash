@@ -293,7 +293,7 @@ const MultipleFoodDetails = () => {
   return (
     <Layout>
     <div className='pb-3'>
-        <Link to="/" className="text-blue-400 hover:text-blue-200 ">&larr; Back to Home</Link>
+        <Link to="/welcome" className="text-blue-400 hover:text-blue-200 ">&larr; Back to Home</Link>
         </div>
         <div className=' px-15  flex items-center justify-center'>
       <div className="bg-custom-gradient flex px-5 py-5 justify-center w-1/3 items-center p-1 rounded-lg shadow-md">

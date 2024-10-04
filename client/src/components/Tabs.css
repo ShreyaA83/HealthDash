@@ -1,0 +1,87 @@
+/* Container styling */
+.tabs-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 2%;
+    width: 100%;
+    max-width: 1024px; /* Align with the navbar width */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 4 2px;
+    position: relative;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    background:  rgba(83, 74, 93, 0.8);
+    cursor: none;
+  }
+  
+  /* Tab item styling */
+  .tab-item {
+    flex: 1;
+    text-align: center;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: none;
+    color: rgb(253, 253, 253);
+    background-color: transparent;
+    border: none;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .tab-item:hover {
+    color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(152, 212, 209, 0.837);
+    border-radius: 13px;
+  }
+  
+  .tab-item.active-tab {
+    color: white;
+    background-color: #1D4ED8;
+    border-radius: 13px;
+  }
+  
+  
+  /* Tab indicator styling */
+  .tab-indicator {
+    position: absolute;
+    cursor: none;
+    bottom: 0;
+    left: 0; /* Start the indicator from the left */
+    height: 4px;
+    width: 33.33%; /* Adjust according to the number of tabs (for 3 tabs) */
+    background-color: #007bff;
+    border-radius: 13px;
+    transition: left 0.3s ease, width 0.3s ease;
+  }
+  
+  .tab-item.active-tab ~ .tab-indicator {
+    width: 33.33%;
+    
+    left: calc(100% / 3 * var(--active-tab-index, 0)); /* Adjust the left property based on the active tab */
+  }
+  
+  /* Fix for extra blue line */
+  .tab-item:not(.active-tab) ~ .tab-indicator {
+    display: none; /* Hide the indicator if no tab is active */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .tab-item {
+      font-size: 1rem;
+      padding: 10px 16px;
+    }
+  
+    .tab-indicator {
+      height: 3px;
+    }
+  
+    .tabs-container {
+      padding: 0 0.5rem;
+    }
+  }
+  

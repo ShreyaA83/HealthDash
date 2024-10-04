@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Welcome from './components/Welcome';
 import { DataProvider } from './components/DataContext';
+import Home from './components/Home';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
       <div className="App">
       <CustomCursor />
         <Routes>
-          <Route path="/" element={<Welcome />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/welcome" element={<Welcome />} />
           <Route path="/dataset" element={<Data />} />
           <Route path="/details/:id" element={<Detail />} />
           <Route path="/multiplefooddetails" element={<MultipleFoodDetails />} />
