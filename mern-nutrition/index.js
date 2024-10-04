@@ -8,7 +8,7 @@ app.use(cors(
   {
     methods : ["POST", "GET"],
     credentials : true,
-    origin: "*",
+    origin: "https://healthboard.netlify.app",
   }
 ));
 app.use(express.json());
