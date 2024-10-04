@@ -10,7 +10,26 @@
   z-index: 1;
 
 }
+.image-container {
+  display: flex;  
+  position: relative;           
+  justify-content: center;   
+  align-items: center;
+  padding: 40px; 
+  
+}
+.image-container img {
+  width: 450px;
+  height: auto;
+  border-radius: 20%;
+  border: 5px solid rgb(0, 0, 0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
+.image-container img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px 8px rgba(0, 255, 255, 0.6);
+}
 .lifeScience {
   /* background: linear-gradient(125deg, #D1CFCF, #B7E4D4, #d4e679c0); Soft gray, pastel teal, and lilac */
   background: linear-gradient(85deg, #91a9d5, #c0e8d9, #b4c5c5); 

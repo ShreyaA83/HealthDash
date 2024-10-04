@@ -3,5 +3,9 @@
     .life-science-content {
       padding: 30px;
     }
+    .image-container img {
+      width: 250px;
+    }
   }
+  
   
