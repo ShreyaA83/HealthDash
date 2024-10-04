@@ -14,6 +14,8 @@
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
     background:  rgba(83, 74, 93, 0.8);
     cursor: none;
+    z-index: 3;
+
   }
   
   /* Tab item styling */
@@ -29,7 +31,7 @@
     border: none;
     transition: color 0.3s ease, background-color 0.3s ease;
     position: relative;
-    z-index: 1;
+    z-index: 3;
   }
   
   .tab-item:hover {

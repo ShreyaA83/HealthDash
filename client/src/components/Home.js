@@ -13,7 +13,7 @@ const Home = () => {
   const tabs = [
     { label: 'Life Science Mode', value: 'lifeScience', activeBg: 'bg-blue-500 text-white' },
     { label: 'Clinical Science Mode', value: 'clinicalScience', activeBg: 'bg-blue-500 text-white' },
-    { label: 'Research Mode', value: 'research', activeBg: 'bg-blue-500 text-white' },
+    { label: 'Health Science Mode', value: 'research', activeBg: 'bg-blue-500 text-white' },
   ];
 
   const renderContent = () => {
@@ -28,7 +28,7 @@ const Home = () => {
   };
 
   return (
-    <div className={`min-h-screen home-body ${activeTab}`}>
+    <div className={`relative min-h-screen w-full home-body ${activeTab}`}>
       <Navbar />
       <div className="container mx-auto py-10">
         <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />

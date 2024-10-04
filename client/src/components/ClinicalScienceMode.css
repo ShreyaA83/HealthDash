@@ -11,16 +11,16 @@
     width: 450px;
     height: auto;
     border-radius: 20%;
-    border: 5px solid cadetblue;
+    border: 5px solid rgb(0, 0, 0);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .image-container img:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     box-shadow: 0 0 10px 8px rgba(0, 255, 255, 0.6);
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 768px) { 
     .clinical-science-content {
       padding: 30px;
     }

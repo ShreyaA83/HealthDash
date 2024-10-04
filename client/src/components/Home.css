@@ -7,43 +7,53 @@
   transition: background 0.8s ease-in-out, color 0.8s ease-in-out;
   overflow: hidden;
   position: relative;
+  z-index: 1;
+
 }
 
 .lifeScience {
-  background: linear-gradient(125deg, #D1CFCF, #B7E4D4, #d4e679c0);
-  /* Soft gray, pastel teal, and lilac for a calming and minimalist look */
+  /* background: linear-gradient(125deg, #D1CFCF, #B7E4D4, #d4e679c0); Soft gray, pastel teal, and lilac */
+  background: linear-gradient(85deg, #91a9d5, #c0e8d9, #b4c5c5); 
+
 }
 
 .clinicalScience {
-  background: linear-gradient(85deg, #91a9d5, #c0e8d9, #b4c5c5);
-  /* Gentle grays and muted teal tones for a clean, clinical aesthetic */
+  background: linear-gradient(85deg, #91a9d5, #c0e8d9, #b4c5c5); 
 }
 
 .research {
-  background: linear-gradient(45deg, #E8E8E8, #B8E0E2, #b1d181);
-  /* Light gray with soft teal and lilac for a fresh, understated palette */
+  /* background: linear-gradient(45deg, #E8E8E8, #B8E0E2, #b1d181); Light gray with soft teal and lilac */
+  background: linear-gradient(85deg, #91a9d5, #c0e8d9, #b4c5c5); 
+
 }
 
-
-
+.home-canvas {
+  position: absolute; /* Position it behind other content */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width of the container */
+  height: 100%; /* Full height of the container */
+  z-index: -1; /* Place it behind other elements */
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .home-heading {
     font-size: 2.5rem;
   }
-
 }
 
+/* Button Styling */
 .button-base {
   border-radius: 8px;
   color: white;
   padding: 12px 24px;
-  cursor: none;
+  cursor: pointer; /* Changed from 'none' to 'pointer' */
   margin-top: 20%;
   border: 2px solid transparent;
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
-.button-base:hover{
+
+.button-base:hover {
   background-color: #9890e3;
 }
