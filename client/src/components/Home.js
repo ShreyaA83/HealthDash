@@ -1,14 +1,15 @@
 // Home.js
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Navbar from './Navbar';
 import LifeScienceMode from './LifeScienceMode';
 import ClinicalScienceMode from './ClinicalScienceMode';
 import ResearchMode from './ResearchMode'; 
 import Tabs from './Tabs'; 
 import './Home.css';
+import { HomeContext } from './HomeContext'; 
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState('lifeScience');
+  const { activeTab, setActiveTab } = useContext(HomeContext); 
 
   const tabs = [
     { label: 'Life Science Mode', value: 'lifeScience', activeBg: 'bg-blue-500 text-white' },

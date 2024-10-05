@@ -1,5 +1,4 @@
-//Table with copy to clipboard
-import React, { useEffect, useState, useMemo, useCallback,useContext, lazy, Suspense } from 'react';
+import React, { useEffect, useState, useMemo, useCallback,useContext, lazy, Suspense, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Spinner from './Spinner';
@@ -23,7 +22,9 @@ const Data = () => {
   const [clickCount, setClickCount] = useState({});
   const [copied, setCopied] = useState(false);
   const [clickedFoodCodes, setClickedFoodCodes] = useState([]);
-
+  const [suggestions, setSuggestions] = useState([]); 
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false); 
+  const searchInputRef = useRef(null);
 
   const handleCopyText = (text) => {
     setClickedFoodCodes((prevCodes) => [...prevCodes, text]);
@@ -36,7 +37,6 @@ const Data = () => {
         console.log(`Copied all food codes: ${allFoodCodes}`);
         setCopied(true);
   
-        // Hide the notification after 2 seconds
         setTimeout(() => {
           setCopied(false);
         }, 2000);
@@ -45,7 +45,6 @@ const Data = () => {
         console.error('Failed to copy all food codes:', err);
       });
   };
-    
 
   const fetchData = useCallback(async () => {
     if (data.length === 0) {
@@ -78,34 +77,43 @@ const Data = () => {
         params: { query, sortBy, order }
       });
       setFilteredData(response.data);
-      setClickCount({});
+
+      const suggestionsResponse = await axios.get(`${API_BASE_URL}/api/suggestions`, { 
+        params: { query } 
+      });
+      setSuggestions(suggestionsResponse.data); 
+      setIsDropdownVisible(true); 
     } catch (err) {
       console.error('Error searching:', err);
     }
   };
-  const debouncedSearch = debounce(handleSearch, 240);
-
-
-  const handleSearchInputChange = (event) => {
-    const value = event.target.value;
-    setSearchQuery(value);
-
+  const debouncedSearch = debounce(handleSearch, 300);
+ 
+  const handleSearchInputChange = () => {
+    const value = searchInputRef.current.value; 
     if (value.length > 3) {
-      debouncedSearch(value);
+      debouncedSearch(value); 
     } else {
-      // Clear filteredData if search query length is <= 3
-      setFilteredData([]);
+      setSuggestions([]); 
+      setIsDropdownVisible(false);
     }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchQuery(suggestion);
+    setIsDropdownVisible(false);
+    handleSearch(suggestion); 
   };
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      handleSearch(searchQuery); // Immediately search on Enter key press
+      handleSearch(searchQuery);
     }
   };
+  
 
   const handleSort = async (columnName) => {
-    if (!searchQuery) return; // Disable sorting if there is no search query
+    if (!searchQuery) return; 
     if (sortBy === columnName) {
       const newOrder = order === 'desc' ? 'asc' : 'desc';
       setOrder(newOrder);
@@ -181,19 +189,33 @@ const Data = () => {
       <div className="mb-3 md:w-96 mx-auto">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch p-4">
         <CustomCursor />
-          <input
-        type="text"
-        placeholder="Search by description"
-        value={searchQuery}
-        onChange={handleSearchInputChange} 
-        onKeyDown={handleKeyPress}
-        className="relative m-0 block flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
-      />
+        <input
+            type="text"
+            placeholder="Search by description"
+            ref={searchInputRef} 
+            onChange={handleSearchInputChange}
+            onKeyDown={handleKeyPress}
+            className="relative m-0 block flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+          />
           <span className="text-gray-100 input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal text-neutral-700 ">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
               <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clipRule="evenodd" />
             </svg>
           </span>
+
+          {isDropdownVisible && suggestions.length > 0 && (
+            <ul className="absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded-lg shadow-lg max-h-60 overflow-auto">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="cursor-pointer hover:bg-blue-200 p-2"
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 
