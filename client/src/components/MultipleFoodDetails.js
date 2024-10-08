@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import CustomCursor from './CustomCursor';
 import { Pie } from 'react-chartjs-2';
 import Spinner from './Spinner';
@@ -68,6 +68,7 @@ const RDA_FEMALE = {
 
 
 const MultipleFoodDetails = () => {
+  const location = useLocation();
   const [foodCodes, setFoodCodes] = useState('');
   const [percentageRDA, setPercentageRDA] = useState({});
   const [isFlipped, setIsFlipped] = useState(false);
@@ -108,20 +109,34 @@ const MultipleFoodDetails = () => {
   const [error, setError] = useState(''); 
   let averageHealthScore = (totalNutrition['Health Score Male'] + totalNutrition['Health Score Female']) / 2;
 
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const codes = query.get('codes'); // Extract the food codes from the query string
+    if (codes) {
+        setFoodCodes(codes); // Set the foodCodes state with the codes from URL
+    }
+}, [location]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); 
     setError(''); 
-
+  
     try {
-      const foodCodesArray = foodCodes.split(',').map(code => code.trim()).filter(code => /^\d+$/.test(code)).map(code => parseInt(code));
-
+      // Parse food codes
+      const foodCodesArray = foodCodes
+        .split(',')
+        .map(code => code.trim())
+        .filter(code => /^\d+$/.test(code))
+        .map(code => parseInt(code));
+  
       if (foodCodesArray.length === 0) {
         setError('Please enter valid numeric food codes separated by commas.');
         setLoading(false);
         return;
       }
-
+  
+      // Initialize total nutrition values
       let totalNutritionValues = {
         'Energy (kcal)': 0,
         'Protein (g)': 0,
@@ -151,43 +166,63 @@ const MultipleFoodDetails = () => {
         'Vitamin C (g)': 0,
         'Copper (g)' : 0
       };
-
-      let descriptions = [];
-      for (let code of foodCodesArray) {
-        try {
-          const response = await axios.get(`${API_BASE_URL}/api/code/${code}`);
-          const foodDetails = response.data;
-          descriptions.push(foodDetails[0]['Main food description']);
-
-          Object.keys(totalNutritionValues).forEach(key => {
-            totalNutritionValues[key] += foodDetails[0][key] || 0;
-          });
-        } catch (err) {
-          console.error(`Error fetching food details for code ${code}:`, err);
-          setError(prev => `${prev}\nError fetching food details for code ${code}. Skipping this code.`);
-        }
+  
+      // Fetch all food details concurrently
+      const foodDetailsResponses = await Promise.all(
+        foodCodesArray.map(async (code) => {
+          try {
+            const response = await axios.get(`${API_BASE_URL}/api/code/${code}`);
+            return response.data[0]; // Return the first item in the response array
+          } catch (err) {
+            console.error(`Error fetching food details for code ${code}:`, err);
+            setError(prev => `${prev}\nError fetching food details for code ${code}. Skipping this code.`);
+            return null; // Return null if there was an error
+          }
+        })
+      );
+  
+      // Filter out any failed (null) responses
+      const validFoodDetails = foodDetailsResponses.filter(details => details !== null);
+  
+      if (validFoodDetails.length === 0) {
+        setError('No valid food details were found.');
+        setLoading(false);
+        return;
       }
-
-      totalNutritionValues['Health Score Male'] /= foodCodesArray.length;
-      totalNutritionValues['Health Score Female'] /= foodCodesArray.length;
+  
+      // Process valid food details
+      const descriptions = validFoodDetails.map(details => details['Main food description']);
+  
+      validFoodDetails.forEach(foodDetails => {
+        Object.keys(totalNutritionValues).forEach(key => {
+          totalNutritionValues[key] += foodDetails[key] || 0;
+        });
+      });
+  
+      totalNutritionValues['Health Score Male'] /= validFoodDetails.length;
+      totalNutritionValues['Health Score Female'] /= validFoodDetails.length;
+  
       const percentageRDA = {};
-    Object.keys(totalNutritionValues).forEach(key => {
-      percentageRDA[key] = {
-        male: (totalNutritionValues[key] / RDA_MALE[key]) * 100,
-        female: (totalNutritionValues[key] / RDA_FEMALE[key]) * 100,
-      };
-    });
-
-    setTotalNutrition(totalNutritionValues);
-    setFoodDescriptions(descriptions);
-    setPercentageRDA(percentageRDA);
-  } catch (error) {
-    console.error('Error fetching food details:', error);
-    setError('An error occurred while fetching food details. Please try again.');
-  } finally {
-    setLoading(false);
-  }
-};
+      Object.keys(totalNutritionValues).forEach(key => {
+        percentageRDA[key] = {
+          male: (totalNutritionValues[key] / RDA_MALE[key]) * 100,
+          female: (totalNutritionValues[key] / RDA_FEMALE[key]) * 100,
+        };
+      });
+  
+      // Set state with results
+      setTotalNutrition(totalNutritionValues);
+      setFoodDescriptions(descriptions);
+      setPercentageRDA(percentageRDA);
+  
+    } catch (error) {
+      console.error('Error fetching food details:', error);
+      setError('An error occurred while fetching food details. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
       
 
 
@@ -293,7 +328,7 @@ const MultipleFoodDetails = () => {
   return (
     <Layout>
     <div className='pb-3'>
-        <Link to="/welcome" className="text-blue-400 hover:text-blue-200 ">&larr; Back to Home</Link>
+        <Link to="/dataset" className="text-blue-400 hover:text-blue-200 ">&larr; Back to Home</Link>
         </div>
         <div className=' px-15  flex items-center justify-center'>
       <div className="bg-custom-gradient flex px-5 py-5 justify-center w-1/3 items-center p-1 rounded-lg shadow-md">

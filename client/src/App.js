@@ -8,28 +8,28 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Welcome from './components/Welcome';
 import { DataProvider as DataContextProvider } from './components/DataContext'; 
-import { DataProvider as HomeContextProvider } from './components/HomeContext'; 
+// import { DataProvider as HomeContextProvider } from './components/HomeContext'; 
 
-import Home from './components/Home';
+// import Home from './components/Home';
 
 function App() {
   return (
     <DataContextProvider>
       <Provider store={store}>
-        <HomeContextProvider>
+        {/* <HomeContextProvider> */}
           <Router>
             <div className="App">
               <CustomCursor />
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/welcome" element={<Welcome />} />
+                {/* <Route path="/" element={<Home />} /> */}
+                <Route path="/" element={<Welcome />} />
                 <Route path="/dataset" element={<Data />} />
                 <Route path="/details/:id" element={<Detail />} />
                 <Route path="/multiplefooddetails" element={<MultipleFoodDetails />} />
               </Routes>
             </div>
           </Router>
-        </HomeContextProvider>
+        {/* </HomeContextProvider> */}
       </Provider>
     </DataContextProvider>
   );

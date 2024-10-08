@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo, useCallback,useContext, lazy, Suspense, useRef } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Spinner from './Spinner';
 import CustomCursor from './CustomCursor'; // Update the path based on your project structure
 import Layout from './Layout';
 import debounce from 'lodash.debounce';
-import copy from 'clipboard-copy';
+// import copy from 'clipboard-copy';
 import { DataContext } from './DataContext';
 import API_BASE_URL from '../config'
 
@@ -14,13 +14,14 @@ import API_BASE_URL from '../config'
 const DataTable = lazy(() => import('./DataTable'));
 
 const Data = () => {
+  const navigate = useNavigate();
   const { data, setData, isLoading, setIsLoading } = useContext(DataContext);
   const [filteredData, setFilteredData] = useState(data);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [order, setOrder] = useState('asc');
   const [clickCount, setClickCount] = useState({});
-  const [copied, setCopied] = useState(false);
+  // const [copied, setCopied] = useState(false);
   const [clickedFoodCodes, setClickedFoodCodes] = useState([]);
   const [suggestions, setSuggestions] = useState([]); 
   const [isDropdownVisible, setIsDropdownVisible] = useState(false); 
@@ -29,22 +30,16 @@ const Data = () => {
   const handleCopyText = (text) => {
     setClickedFoodCodes((prevCodes) => [...prevCodes, text]);
   };
-  
   const handleCopyAllFoodCodes = () => {
-    const allFoodCodes = clickedFoodCodes.join(', ');
-    copy(allFoodCodes)
-      .then(() => {
-        console.log(`Copied all food codes: ${allFoodCodes}`);
-        setCopied(true);
-  
-        setTimeout(() => {
-          setCopied(false);
-        }, 2000);
-      })
-      .catch((err) => {
-        console.error('Failed to copy all food codes:', err);
-      });
-  };
+    // Remove duplicates by converting to a Set and then back to an array
+    const uniqueFoodCodes = [...new Set(clickedFoodCodes)];
+
+    // Join the unique food codes into a string
+    const allFoodCodes = uniqueFoodCodes.join(', ');
+
+    // Navigate to MultipleFoodDetail and pass the unique food codes
+    navigate(`/multiplefooddetails?codes=${allFoodCodes}`);
+};
 
   const fetchData = useCallback(async () => {
     if (data.length === 0) {
@@ -184,7 +179,7 @@ const Data = () => {
         <Link to="/multiplefooddetails" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ">
         Multiple Food Details
       </Link>
-      {copied && <span className="text-green-500 ml-2">Copied to clipboard!</span>}
+      {/* {copied && <span className="text-green-500 ml-2">Copied to clipboard!</span>} */}
 
       <div className="mb-3 md:w-96 mx-auto">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch p-4">
@@ -235,8 +230,8 @@ const Data = () => {
       onClick={handleCopyAllFoodCodes}
       className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
     >
-      Copy All Food Codes
-    </button>
+Go to Multiple Food Details    
+</button>
   </div>
             <DataTable
             sortedData={sortedData}

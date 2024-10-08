@@ -55,12 +55,12 @@ const Welcome = () => {
             >
               Browse Data
             </Link>
-            <Link
+            {/* <Link
               to="/"
               className="flex-grow bg-emerald-800 hover:bg-blue-700 text-white py-2 px-4 rounded welcome-button"
             >
               Main
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>
