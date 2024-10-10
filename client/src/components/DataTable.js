@@ -13,7 +13,7 @@ const DataTable = ({ sortedData, handleCopyText, handleSort, sortIcon, searchQue
   </caption>  
           <thead className="bg-violet-200 sticky top-0">
             <tr className="sticky top-0">
-              <th className='border border-slate-200 '>Food Code</th>
+              <th className='border border-slate-200 columns-xs'>Food Code</th>
               <th className='border border-slate-200'>Description</th>
               <th className='border border-slate-200'>WWEIA Category Description</th>
               <th
@@ -166,7 +166,8 @@ const DataTable = ({ sortedData, handleCopyText, handleSort, sortIcon, searchQue
       </div>
     )}
   </div>
-</th>             <th
+</th>             
+<th
   scope="col"
   className="py-2 hover:bg-teal-100 duration-300 border border-slate-200 relative"
   onClick={isSortable ? () => handleSort('Health Score Female') : undefined}
@@ -175,7 +176,6 @@ const DataTable = ({ sortedData, handleCopyText, handleSort, sortIcon, searchQue
   Health Score Female {sortIcon('Health Score Female')}
     {isSortable && (
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-1">
-        {/* Arrow icon or indicator */}
         <svg className="w-4 h-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
           <path
             fillRule="evenodd"
@@ -192,16 +192,17 @@ const DataTable = ({ sortedData, handleCopyText, handleSort, sortIcon, searchQue
           <tbody>
             {sortedData.map((item) => (
               <tr key={item._id} className="text-center hover:bg-teal-100 odd:bg-white even:bg-slate-50">
-              <div class="flex items-center">
-                        {/* <input id="checkbox-table-3" 
-                        type="checkbox" 
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 p-2" />
-                        <label for="checkbox-table-3" class="sr-only">checkbox</label> */}
-                    
-                <td className="py-2 border border-slate-200 select-all" onClick={() => handleCopyText(item['Food code'])} >
-                {item['Food code']}
-                </td>
-                </div>
+              <td 
+  className="py-2 border border-slate-200 text-center"
+>
+  <button 
+    className="w-full px-4 py-2 bg-teal-100 text-black font-medium rounded-md hover:bg-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-300 transition duration-150 ease-in-out"
+    onClick={() => handleCopyText(item['Food code'])}
+  >
+    {item['Food code']}
+  </button>
+</td>
+
                 <td className="py-2 border border-slate-200">
                   <Link to={`/details/${item._id}`} className="text-blue-500">
                     {item['Main food description']}
