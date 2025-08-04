@@ -23,7 +23,7 @@ const Spinner = () => {
         {loaders}
 
         {/* Message below, spans full width */}
-        <p className="col-span-4 text-white text-sm md:text-base font-semibold tracking-wide text-center mt-4">
+        <p className="col-span-4 text-white text-sm md:text-base font-semibold tracking-wide text-center mt-4 typewriter">
           ⚡ Thank you for being patient — Running on free server tier
         </p>
       </div>
