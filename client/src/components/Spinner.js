@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import {
-  ClimbingBoxLoader,
+  // ClimbingBoxLoader,
   PacmanLoader,
   DotLoader,
   GridLoader,
@@ -11,7 +11,7 @@ const Spinner = () => {
     () => [
       <GridLoader key="grid-loader" color="#7AD0C0" />,
       <PacmanLoader key="pacman-loader" color="#89BBC2" />,
-      <ClimbingBoxLoader key="climbing-box-loader" color="#97A6C3" />,
+      // <ClimbingBoxLoader key="climbing-box-loader" color="#97A6C3" />,
       <DotLoader key="dot-loader" color="#A691C5" />,
     ],
     []
