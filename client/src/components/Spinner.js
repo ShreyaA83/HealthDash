@@ -19,11 +19,12 @@ const Spinner = () => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-custom-gradient bg-opacity-50 backdrop-blur-xl z-50 p-4">
+              {loaders}
+
       <div className="flex flex-col items-center space-y-4">
         {/* Spinners in 4-column grid */}
-        <div className="grid grid-cols-3 gap-5">
-          {loaders}
-        </div>
+        // <div className="grid grid-cols-3 gap-5">
+        // </div>
 
         {/* Message aligned with spinner width */}
         <p className="text-white text-sm md:text-base font-semibold tracking-wide text-centre typewriter">
