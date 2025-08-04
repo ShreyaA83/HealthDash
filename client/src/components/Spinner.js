@@ -19,10 +19,9 @@ const Spinner = () => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-custom-gradient bg-opacity-50 backdrop-blur-xl z-50 p-4">
-      {/* Tight container for spinners + message */}
       <div className="flex flex-col items-center space-y-4">
         {/* Spinners in 4-column grid */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-3 gap-5">
           {loaders}
         </div>
 
