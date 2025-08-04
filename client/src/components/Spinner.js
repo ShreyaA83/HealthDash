@@ -18,15 +18,15 @@ const Spinner = () => {
   );
 
   return (
-    <div className="fixed inset-0 grid place-items-center grid-cols-4 gap-1 bg-custom-gradient bg-opacity-50 backdrop-blur-xl z-50 p-1">
+    <div className="fixed inset-0 grid place-items-center bg-custom-gradient bg-opacity-50 backdrop-blur-xl z-50 p-1">
+      <div className="grid grid-cols-4 gap-1 items-center">
+        {loaders}
 
-       {/* Spinner Grid */}
-                 {loaders}
-
-      {/* Message */}
-<p className="text-white text-sm md:text-base font-semibold tracking-wide typewriter">
-        ⚡ Thanks you for being patient — Running on free server tier
-      </p>
+        {/* Message below, spans full width */}
+        <p className="col-span-4 text-white text-sm md:text-base font-semibold tracking-wide text-center mt-4">
+          ⚡ Thank you for being patient — Running on free server tier
+        </p>
+      </div>
     </div>
   );
 };
