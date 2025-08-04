@@ -34,7 +34,7 @@ input, textarea {
   border-right: 2px solid white;
   width: fit-content;
   animation:
-    typing 3.5s steps(40, end),
+    typing 4.0s steps(45, end),
     blink 0.75s step-end infinite;
 }
 
