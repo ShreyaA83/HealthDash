@@ -11,8 +11,13 @@ const Spinner = () => {
   ], []);
 
   return (
-    <div className="fixed inset-0 grid place-items-center grid-cols-4 gap-1 bg-custom-gradient bg-opacity-50 backdrop-blur-xl z-50 p-1">
-      {loaders}
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-custom-gradient bg-opacity-50 backdrop-blur-xl z-50 p-4 space-y-4">
+      <div className="grid grid-cols-4 gap-2">
+        {loaders}
+      </div>
+      <p className="text-white text-sm font-medium animate-pulse">
+        Please be patient - Free server
+      </p>
     </div>
   );
 };
